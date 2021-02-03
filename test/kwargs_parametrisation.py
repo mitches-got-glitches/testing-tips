@@ -177,48 +177,39 @@ class TestGetQualityAdjustments:
         params=[
             Case(
                 label="just_sizes",
-                quality_value="input_quality_values",
                 expout="expout_all_size_changes_true",
             ),
             Case(
                 label="sizes_with_to_adjust",
-                quality_value="input_quality_values",
                 to_adjust="to_adjust_only_selected_size_changes_true",
                 expout="expout_only_selected_size_changes_true",
             ),
             Case(
                 label="sizes_with_to_reset",
-                quality_value="input_quality_values",
                 to_reset="to_reset",
                 expout="expout_all_size_changes_true_with_imputations",
             ),
             Case(
                 label="size_with_to_adjust_and_to_reset",
-                quality_value="input_quality_values",
                 to_reset="to_reset",
                 to_adjust="to_adjust_only_selected_size_changes_true",
                 expout="expout_only_selected_size_changes_true_with_imputations",
             ),
-
         ],
         ids=lambda x: x.label,
     )
-    def input_expout_combinator(self, request):
-        """Return the fixtures for each test given by params."""
-        # Dataclasses have an internal __dict__ attribute.
-        return {
-            k: request.getfixturevalue(v)
-            for k, v in request.param.kwargs.items()
-            # Default None will cause an error when getting fixture.
-        }
+    def case_parameters(self, request):
+        """Return the parameters for each test given by params."""
+        return get_case_parameters(request)
 
     def test_selected_size_changes(
         self,
-        input_expout_combinator,
+        input_quality_values,
+        case_parameters,
     ):
         """Unit tests for get_quality_adjustments."""
-        expected_output = input_expout_combinator.pop('expout')
+        expected_output = case_parameters.pop('expout')
 
-        output = get_quality_adjustments(**input_expout_combinator)
+        output = get_quality_adjustments(input_quality_values, **case_parameters)
 
         assert_frame_equal(output, expected_output)
