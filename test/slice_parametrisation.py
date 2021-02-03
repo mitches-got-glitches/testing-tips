@@ -64,101 +64,113 @@ class TestAddN2Codes:
     @pytest.fixture
     def input_data(self):
         """Return the input data for testing add_N2_codes."""
-        df = create_dataframe(
-            [
-                (   # columns
-                    '01/01/2017', '01/02/2017', '01/03/2017', '01/04/2017', '01/05/2017', '01/06/2017',
-                    '01/07/2017', '01/08/2017', '01/09/2017', '01/10/2017', '01/11/2017', '01/12/2017',
-                    '01/01/2018', '01/02/2018', '01/03/2018',
-                ),
-                # Test case: adds_N2_after_N_when_not_in_Jan
-                ('', '', '', 'N', '', '', '', 'N', '', '', '', 'T', '', '', ''),
-                ('', 'N', 'N', '', '', '', '', 'N', 'N', '', 'M', '', '', 'N', ''),
-                # Test case: doesnt_add_N2_when_N_in_Jan
-                ('N', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-                ('N', '', '', '', '', 'N', '', '', '', 'N', '', '', 'N', '', ''),
-                # Test case: adds_N2_markers_after_single_M_and_T_after_N
-                ('', '', '', '', '', '', '', 'M', '', 'N', 'M', '', '', '', ''),
-                ('', '', '', 'N', '', '', 'T', '', 'N', 'T', '', 'N', '', '', ''),
-                # Test case: adds_N2_markers_after_multiple_M_and_T_after_N
-                ('', '', 'N', 'M', 'M', '', 'N', '', '', 'N', 'T', 'T', '', '', ''),
-                ('', '', '', 'N', 'M', 'T', 'T', '', 'N', 'T', 'M', 'N', '', '', ''),
-            ],
-        )
+        df = create_dataframe([
+            (   # columns
+                '01/01/2017', '01/02/2017', '01/03/2017', '01/04/2017', '01/05/2017', '01/06/2017',
+                '01/07/2017', '01/08/2017', '01/09/2017', '01/10/2017', '01/11/2017', '01/12/2017',
+                '01/01/2018', '01/02/2018', '01/03/2018',
+            ),
+            # Test case: adds_N2_after_N_when_not_in_Jan
+            ('', '', '', 'N', '', '', '', 'N', '', '', '', 'T', '', '', ''),
+            ('', 'N', 'N', '', '', '', '', 'N', 'N', '', 'M', '', '', 'N', ''),
+            # Test case: doesnt_add_N2_when_N_in_Jan
+            ('N', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            ('N', '', '', '', '', 'N', '', '', '', 'N', '', '', 'N', '', ''),
+            # Test case: adds_N2_markers_after_single_M_and_T_after_N
+            ('', '', '', '', '', '', '', 'M', '', 'N', 'M', '', '', '', ''),
+            ('', '', '', 'N', '', '', 'T', '', 'N', 'T', '', 'N', '', '', ''),
+            # Test case: adds_N2_markers_after_multiple_M_and_T_after_N
+            ('', '', 'N', 'M', 'M', '', 'N', '', '', 'N', 'T', 'T', '', '', ''),
+            ('', '', '', 'N', 'M', 'T', 'T', '', 'N', 'T', 'M', 'N', '', '', ''),
+            # Test case: doesnt_add_N2_after_multiple_M_and_T_after_N_if_new_base_period
+            ('', '', '', '', '', '', '', '', 'N', 'T', 'M', 'M', 'M', '', ''),
+        ])
         df.columns = pd.to_datetime(df.columns, dayfirst=True)
         return df
 
     @pytest.fixture
     def expout_data(self):
         """Return the expected output for testing add_N2_codes."""
-        df = create_dataframe(
-            [
-                (   # columns
-                    '01/01/2017', '01/02/2017', '01/03/2017', '01/04/2017', '01/05/2017', '01/06/2017',
-                    '01/07/2017', '01/08/2017', '01/09/2017', '01/10/2017', '01/11/2017', '01/12/2017',
-                    '01/01/2018', '01/02/2018', '01/03/2018',
-                ),
-                # Test case: adds_N2_after_N_when_not_in_Jan
-                ('', '', '', 'N', 'N2', '', '', 'N', 'N2', '', '', 'T', '', '', ''),
-                ('', 'N', 'N', 'N2', '', '', '', 'N', 'N', 'N2', 'M', '', '', 'N', 'N2'),
-                # Test case: doesnt_add_N2_when_N_in_Jan
-                ('N', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-                ('N', '', '', '', '', 'N', 'N2', '', '', 'N', 'N2', '', 'N', '', ''),
-                # Test case: adds_N2_markers_after_single_M_and_T_after_N
-                ('', '', '', '', '', '', '', 'M', '', 'N', 'M', 'N2', '', '', ''),
-                ('', '', '', 'N', 'N2', '', 'T', '', 'N', 'T', 'N2', 'N', 'N2', '', ''),
-                # Test case: adds_N2_markers_after_multiple_M_and_T_after_N
-                ('', '', 'N', 'M', 'M', 'N2', 'N', 'N2', '', 'N', 'T', 'T', 'N2', '', ''),
-                ('', '', '', 'N', 'M', 'T', 'T', 'N2', 'N', 'T', 'M', 'N', 'N2', '', ''),
-            ],
-        )
+        df = create_dataframe([
+            (   # columns
+                '01/01/2017', '01/02/2017', '01/03/2017', '01/04/2017', '01/05/2017', '01/06/2017',
+                '01/07/2017', '01/08/2017', '01/09/2017', '01/10/2017', '01/11/2017', '01/12/2017',
+                '01/01/2018', '01/02/2018', '01/03/2018',
+            ),
+            # Test case: adds_N2_after_N_when_not_in_Jan
+            ('', '', '', 'N', 'N2', '', '', 'N', 'N2', '', '', 'T', '', '', ''),
+            ('', 'N', 'N', 'N2', '', '', '', 'N', 'N', 'N2', 'M', '', '', 'N', 'N2'),
+            # Test case: doesnt_add_N2_when_N_in_Jan
+            ('N', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            ('N', '', '', '', '', 'N', 'N2', '', '', 'N', 'N2', '', 'N', '', ''),
+            # Test case: adds_N2_markers_after_single_M_and_T_after_N
+            ('', '', '', '', '', '', '', 'M', '', 'N', 'M', 'N2', '', '', ''),
+            ('', '', '', 'N', 'N2', '', 'T', '', 'N', 'T', 'N2', 'N', 'N2', '', ''),
+            # Test case: adds_N2_markers_after_multiple_M_and_T_after_N
+            ('', '', 'N', 'M', 'M', 'N2', 'N', 'N2', '', 'N', 'T', 'T', 'N2', '', ''),
+            ('', '', '', 'N', 'M', 'T', 'T', 'N2', 'N', 'T', 'M', 'N', 'N2', '', ''),
+            # Test case: doesnt_add_N2_after_multiple_M_and_T_after_N_if_new_base_period
+            ('', '', '', '', '', '', '', '', 'N', 'T', 'M', 'M', 'M', '', ''),
+        ])
         df.columns = pd.to_datetime(df.columns, dayfirst=True)
         return df
 
     @pytest.fixture(
         params=[
-            (0, 1),
-            (2, 3),
-            (4, 5),
-            pytest.param((6, 7), marks=pytest.mark.xfail(reason="logic not there yet")),
+            Case(
+                "adds_N2_after_N_when_not_in_Jan",
+                # GIVEN a DataFrame of strings with N, M and T markers
+                # WITH some N's directly followed by another N
+                # WHEN add_N2_markers returns
+                # THEN the resulting DataFrame has N2's the period after N
+                # WHERE there is not already an N
+                slice=(0, 1),
+            ),
+            Case(
+                "doesnt_add_N2_when_N_in_Jan",
+                # GIVEN a DataFrame of strings with N markers
+                # WITH some N codes in January
+                # WHEN add_N2_markers returns
+                # THEN the resulting DataFrame has N2's the period after N
+                # EXCEPT when the N code is in January
+                slice=(2, 3),
+            ),
+            Case(
+                "adds_N2_markers_after_multiple_M_and_T_after_N",
+                # GIVEN a DataFrame of strings with N, M and T markers
+                # WITH N codes followed by multiple M or T codes
+                # WHEN add_N2_markers returns
+                # THEN the resulting DataFrame has N2's in the next available period
+                # AFTER the last M or T code
+                # EXCEPT if there is an N
+                slice=(4, 5),
+            ),
+            Case(
+                "adds_N2_markers_after_multiple_M_and_T_after_N",
+                # GIVEN a DataFrame of strings with N, M and T markers
+                # WITH N codes followed by multiple M or T codes
+                # WHEN add_N2_markers returns
+                # THEN the resulting DataFrame has N2's in the next available period
+                # AFTER the last M or T code
+                # EXCEPT if there is an N
+                slice=(6, 7),
+            ),
+            Case(
+                "doesnt_add_N2_after_multiple_M_and_T_after_N_if_new_base_period",
+                # GIVEN a DataFrame of strings with N, M and T markers
+                # WITH N codes followed by multiple M or T codes
+                # WHEN add_N2_markers returns
+                # THEN the resulting DataFrame has N2's in the next available period
+                # AFTER the last M or T code
+                # EXCEPT if the next available period is covered by a new base period
+                slice=(8, 8),
+            ),
         ],
-        ids=[
-            "adds_N2_after_N_when_not_in_Jan",
-            # GIVEN a DataFrame of strings with N, M and T markers
-            # WITH some N's directly followed by another N
-            # WHEN add_N2_markers returns
-            # THEN the resulting DataFrame has N2's the period after N
-            # WHERE there is not already an N
-            "doesnt_add_N2_when_N_in_Jan",
-            # GIVEN a DataFrame of strings with N markers
-            # WITH some N codes in January
-            # WHEN add_N2_markers returns
-            # THEN the resulting DataFrame has N2's the period after N
-            # EXCEPT when the N code is in January
-            "adds_N2_markers_after_single_M_and_T_after_N",
-            # GIVEN a DataFrame of strings with N, M and T markers
-            # WITH some M and T markers directly after N codes
-            # WHEN add_N2_markers returns
-            # THEN the resulting DataFrame has N2's in the next available period
-            # AFTER the M or T code
-            "adds_N2_markers_after_multiple_M_and_T_after_N",
-            # GIVEN a DataFrame of strings with N, M and T markers
-            # WITH N codes followed by multiple M or T codes
-            # WHEN add_N2_markers returns
-            # THEN the resulting DataFrame has N2's in the next available period
-            # AFTER the last M or T code
-            # EXCEPT if there is an N
-        ],
+        ids=lambda x: x.label,
     )
     def input_expout_combinator(self, request, input_data, expout_data):
         """Parametrize the input and outputs using the given data slices."""
-        start_end = request.param
-
-        assert start_end[1] in input_data.index
-        assert start_end[1] in expout_data.index
-
-        slice_ = slice(*start_end)
-        return input_data.loc[slice_, :], expout_data.loc[slice_, :]
+        return slice_dataframes(request.param.slice, input_data, expout_data)
 
     def test_case(self, input_expout_combinator):
         """Unit tests for add_N2_markers."""
