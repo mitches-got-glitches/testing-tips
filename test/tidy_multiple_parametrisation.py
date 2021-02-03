@@ -53,7 +53,7 @@ class TestFilterRetailerItems:
     @pytest.fixture
     def filter_retailer_input(self):
         """Create input dataframe for filter_retailer_items function."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (12, 987),
@@ -67,11 +67,10 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
-
+    @pytest.fixture
     def filter_1_retailer_1_item_expout(self):
         """Create expout dataframe for test_filter_1_retailer_1_item test."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (12, 987),
@@ -84,24 +83,10 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
-
-    def test_filter_1_retailer_1_item(
-        self,
-        filter_retailer_input
-    ):
-        """Filter out a single retailer/item combo."""
-        expected_df = self.filter_1_retailer_1_item_expout()
-
-        alt_data_filter = {12: [654]}
-
-        output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-
-        assert_frame_equal(output_df.reset_index(drop=True), expected_df)
-
+    @pytest.fixture
     def filter_1_retailer_2_item_expout(self):
         """Create expout dataframe for test_filter_1_retailer_2_item test."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (12, 987),
@@ -113,24 +98,10 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
-
-    def test_filter_1_retailer_2_item(
-        self,
-        filter_retailer_input
-    ):
-        """Filter out a single retailer with 2 items."""
-        expected_df = self.filter_1_retailer_2_item_expout()
-
-        alt_data_filter = {12: [654, 321]}
-
-        output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-
-        assert_frame_equal(output_df.reset_index(drop=True), expected_df)
-
+    @pytest.fixture
     def filter_1_retailer_all_item_expout(self):
         """Create expout dataframe for test_filter_1_retailer_2_item test."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (34, 987),
@@ -140,24 +111,10 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
-
-    def test_filter_1_retailer_all_item(
-        self,
-        filter_retailer_input
-    ):
-        """Filter out a single retailer and all its items."""
-        expected_df = self.filter_1_retailer_all_item_expout()
-
-        alt_data_filter = {12: [987, 654, 321]}
-
-        output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-
-        assert_frame_equal(output_df.reset_index(drop=True), expected_df)
-
+    @pytest.fixture
     def filter_2_retailer_some_item_expout(self):
         """Create expout dataframe for test_filter_1_retailer_2_item test."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (12, 987),
@@ -168,27 +125,10 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
-
-    def test_filter_2_retailer_2someitem(
-        self,
-        filter_retailer_input
-    ):
-        """Filter out 2 retailers with varying number of items."""
-        expected_df = self.filter_2_retailer_some_item_expout()
-
-        alt_data_filter = {
-            12: [654, 321],
-            34: [987]
-        }
-
-        output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-
-        assert_frame_equal(output_df.reset_index(drop=True), expected_df)
-
+    @pytest.fixture
     def filter_1_retailer_0_item_expout(self):
         """Create expout dataframe for test_filter_1_retailer_1_item test."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (12, 987),
@@ -202,24 +142,10 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
-
-    def test_filter_1_retailer_0_item(
-        self,
-        filter_retailer_input
-    ):
-        """Filter out a single retailer but no items."""
-        expected_df = self.filter_1_retailer_0_item_expout()
-
-        alt_data_filter = {12: []}
-
-        output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-        print(output_df)
-        assert_frame_equal(output_df.reset_index(drop=True), expected_df)
-
+    @pytest.fixture
     def filter_0_retailer_0_item_expout(self):
         """Create expout dataframe for test_filter_1_retailer_1_item test."""
-        df = create_dataframe(
+        return create_dataframe(
             [
                 ('shop_code', 'item_id'),
                 (12, 987),
@@ -233,17 +159,31 @@ class TestFilterRetailerItems:
             ],
         )
 
-        return df
+    @pytest.fixture(
+        params=[
+            ({12: [654]}, "filter_1_retailer_1_item_expout"),
+            ({12: [654, 321]}, "filter_1_retailer_2_item_expout"),
+            ({12: [987, 654, 321]}, "filter_1_retailer_all_item_expout"),
+            ({12: [654, 321], 34: [987]}, "filter_2_retailer_some_item_expout"),
+            ({12: []}, "filter_1_retailer_0_item_expout"),
+            ({}, "filter_0_retailer_0_item_expout"),
+        ],
+        ids=lambda x: x[1].replace('_expout', '').replace('filter_', ''),
+    )
+    def param_expout_combinator(self, request):
+        """Combine the different input filters with the relevant expected output."""
+        alt_data_filter = request.param[0]
+        expout = request.getfixturevalue(request.param[1])
 
-    def test_filter_0_retailer_0_item(
+        return alt_data_filter, expout
+
+    def test_cases(
         self,
-        filter_retailer_input
+        filter_retailer_input,
+        param_expout_combinator,
     ):
-        """Filter out an empty dictionary."""
-        expected_df = self.filter_0_retailer_0_item_expout()
-
-        alt_data_filter = {}
+        """Test the different filtering cases."""
+        alt_data_filter, expected_df = param_expout_combinator
 
         output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-        print(output_df)
         assert_frame_equal(output_df.reset_index(drop=True), expected_df)
