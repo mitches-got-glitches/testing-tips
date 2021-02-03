@@ -67,11 +67,11 @@ class TestFilterRetailerItems:
             ],
         )
 
-    @pytest.fixture
-    def filter_1_retailer_1_item_expout(self):
-        """Create expout dataframe for test_filter_1_retailer_1_item test."""
-        return create_dataframe(
-            [
+    @parametrize_cases(
+        Case(
+            label="1_retailer_1_item",
+            alt_data_filter={12: [654]},
+            expout=create_dataframe([
                 ('shop_code', 'item_id'),
                 (12, 987),
                 (12, 987),
@@ -80,14 +80,12 @@ class TestFilterRetailerItems:
                 (34, 765),
                 (56, 876),
                 (56, 543),
-            ],
-        )
-
-    @pytest.fixture
-    def filter_1_retailer_2_item_expout(self):
-        """Create expout dataframe for test_filter_1_retailer_2_item test."""
-        return create_dataframe(
-            [
+            ]),
+        ),
+        Case(
+            label="1_retailer_2_item",
+            alt_data_filter={12: [654, 321]},
+            expout=create_dataframe([
                 ('shop_code', 'item_id'),
                 (12, 987),
                 (12, 987),
@@ -95,41 +93,38 @@ class TestFilterRetailerItems:
                 (34, 765),
                 (56, 876),
                 (56, 543),
-            ],
-        )
-
-    @pytest.fixture
-    def filter_1_retailer_all_item_expout(self):
-        """Create expout dataframe for test_filter_1_retailer_2_item test."""
-        return create_dataframe(
-            [
+            ]),
+        ),
+        Case(
+            label="1_retailer_all_item",
+            alt_data_filter={12: [987, 654, 321]},
+            expout=create_dataframe([
                 ('shop_code', 'item_id'),
                 (34, 987),
                 (34, 765),
                 (56, 876),
                 (56, 543),
-            ],
-        )
-
-    @pytest.fixture
-    def filter_2_retailer_some_item_expout(self):
-        """Create expout dataframe for test_filter_1_retailer_2_item test."""
-        return create_dataframe(
-            [
+            ]),
+        ),
+        Case(
+            label="2_retailer_some_item",
+            alt_data_filter={
+                12: [654, 321],
+                34: [987],
+            },
+            expout=create_dataframe([
                 ('shop_code', 'item_id'),
                 (12, 987),
                 (12, 987),
                 (34, 765),
                 (56, 876),
                 (56, 543),
-            ],
-        )
-
-    @pytest.fixture
-    def filter_1_retailer_0_item_expout(self):
-        """Create expout dataframe for test_filter_1_retailer_1_item test."""
-        return create_dataframe(
-            [
+            ]),
+        ),
+        Case(
+            label="1_retailer_0_item",
+            alt_data_filter={12: []},
+            expout=create_dataframe([
                 ('shop_code', 'item_id'),
                 (12, 987),
                 (12, 987),
@@ -139,14 +134,12 @@ class TestFilterRetailerItems:
                 (34, 765),
                 (56, 876),
                 (56, 543),
-            ],
-        )
-
-    @pytest.fixture
-    def filter_0_retailer_0_item_expout(self):
-        """Create expout dataframe for test_filter_1_retailer_1_item test."""
-        return create_dataframe(
-            [
+            ]),
+        ),
+        Case(
+            label="0_retailer_0_item",
+            alt_data_filter={},
+            expout=create_dataframe([
                 ('shop_code', 'item_id'),
                 (12, 987),
                 (12, 987),
@@ -156,34 +149,15 @@ class TestFilterRetailerItems:
                 (34, 765),
                 (56, 876),
                 (56, 543),
-            ],
-        )
-
-    @pytest.fixture(
-        params=[
-            ({12: [654]}, "filter_1_retailer_1_item_expout"),
-            ({12: [654, 321]}, "filter_1_retailer_2_item_expout"),
-            ({12: [987, 654, 321]}, "filter_1_retailer_all_item_expout"),
-            ({12: [654, 321], 34: [987]}, "filter_2_retailer_some_item_expout"),
-            ({12: []}, "filter_1_retailer_0_item_expout"),
-            ({}, "filter_0_retailer_0_item_expout"),
-        ],
-        ids=lambda x: x[1].replace('_expout', '').replace('filter_', ''),
+            ]),
+        ),
     )
-    def param_expout_combinator(self, request):
-        """Combine the different input filters with the relevant expected output."""
-        alt_data_filter = request.param[0]
-        expout = request.getfixturevalue(request.param[1])
-
-        return alt_data_filter, expout
-
     def test_cases(
         self,
         filter_retailer_input,
-        param_expout_combinator,
+        alt_data_filter,
+        expout,
     ):
         """Test the different filtering cases."""
-        alt_data_filter, expected_df = param_expout_combinator
-
         output_df = filter_retailer_items(filter_retailer_input, alt_data_filter)
-        assert_frame_equal(output_df.reset_index(drop=True), expected_df)
+        assert_frame_equal(output_df.reset_index(drop=True), expout)
