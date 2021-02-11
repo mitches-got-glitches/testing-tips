@@ -1,296 +1,510 @@
 ---
-title: How to write good tests quickly and efficiently
-marp: true
-theme: gaia
+theme : "white"
+transition: "slide"
+highlightTheme: "gruvbox-dark"
+slideNumber: false
+customTheme: "css/parchment"
+title: "How to write good tests quickly and efficiently"
 ---
 
-# How to write good tests quickly and efficiently
+### How to write good tests quickly and efficiently
 
+##### Mitch Edmunds
 
-Mitch Edmunds
-
----
-
-### Some of my favourite views
-
----
-
-# Tuscan Hills, Italy
-
-![bg](img/tuscan_hills.jpg)
-
----
-
-# Poly Joke Beach, Cornwall
-
-![bg](img/polly_joke_beach.jpg)
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="/path/to/styles/default.css">
+  <script src="/path/to/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> -->
+</head>
 
 ---
 
-![bg fit](img/pytest_output.png)
+### Some of my favourite views...
 
+--
+
+![Tuscan Hills](img/tuscan_hills.jpg)
+### Tuscan Hills, Italy
+
+--
+
+![Poly Joke Beach](img/polly_joke_beach.jpg)
+### Poly Joke Beach, Cornwall
+
+--
+
+<img height="350" data-src="img/pytest_output.png">
+
+### A passing test suite
 
 ---
 
-## Intro and context
+### Testing is time ~~consuming~~
+### Testing is time WELL SPENT
 
-* Working on the Consumer Prices automation pipeline
-* Most tests I write are asserting pandas/Spark DataFrame equality
-* Mostly using functional paradigm, not OOP so much
-* Examples will be given using pytest
-<!--
-pytest is the de facto standard test library
--->
+<!-- <div class="tenor-gif-embed" data-postid="10243842" data-share-method="host" data-width="50%" data-aspect-ratio="1.0"><a href="https://tenor.com/view/nobody-got-time-for-that-gif-10243842">Nobody Got Time For That AIntnobody Got Time For That GIF</a> from <a href="https://tenor.com/search/nobodygottimeforthat-gifs">Nobodygottimeforthat GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script> -->
 
----
+<aside class="notes">
+You should be spending as much time testing, if not more, as you do programming.
+
+Some of your initial reactions to that might be - well I just don't have time for that.
+I know that because that's what I used to think when first confronted with the beast that is testing.
+
+But now through first hand experience, I've come to understand how important testing is. My life is so much easier down the line if I take the time to put some good tests in place. Now, I always make time for testing, and you should to. Testing is important and you should be making that clear to the business area that you're working for. Make it clear to them that if time is not made for testing, then you are potentially compromising the quality of the statistics. Not only that, but you're going to get a whole heap of problems down the line if the requirements happen to change. Set their expectations and set them as early as possible. Then voila, you should then have time for testing.
+
+If you are tempted to just carry on - you've built your feature, you've done some exploratory testing, you can see that it seems to be working for your inputs - let me just make it clear once again that time saved by not doing testing is a False Economy. You will spend much more time dealing with bugs in the future than you spent writing the tests. And if not you, then someone else will have to clear up your mess.
+
+</aside>
+
+--
 
 > Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.
 
 &mdash; Martin Golding
 
-<!--
-Quite often that person will be you. I know what people are like at the ONS, they like to stay
-here for 40 years or more.
--->
+<aside class="notes">
+Quite often that person will be you. I know what people are like at the ONS, they like to stay here for 40 years or more.
+</aside>
 
 ---
 
-# Testing is a skill
+### Testing is a skill
 
-How to get better:
+--
+
 * Read a book or some blog posts on the topic
   * [Getting Started With Testing in Python](https://realpython.com/python-testing/) - Real Python
   * [Python testing with pytest](https://www.oreilly.com/library/view/python-testing-with/9781680502848/) - Brian Okken
-* Read the basics of the pytest documentation
+* Read the [basics of the pytest documentation](https://docs.pytest.org/en/stable/getting-started.html)
 * Read some tests in a Python library that you like
-* Write tests!
+* **Write tests!**
 
-<!--
+
+<aside class="notes">
 Remember that there are people out there with the job title "Tester".
-Learning how to test is not easy, so don't beat yourself up if you hit
-a few stumbling blocks. It will take time - but it is a skill worth investing in.
+And learning how to test is not easy, so don't beat yourself up if you hit a few stumbling blocks. It will take time - but it is a skill worth investing in.
+
 
 What can you do to get better at testing?
-* Read a book or some blog posts on the topic
-* Read the basics of the pytest documentation
-* Read some actual tests in a Python library that you like
-* Write tests! Take the time to figure out what works and what doesn't.
-  Write a test, get it to pass. Write another one - it's the only way
-  to really get better.
 
--->
+The number one most important thing to get better at testing, is to Write some tests!
+Take the time to figure out what works and what doesn't. Write a test, get it to pass. Write another one - it's the only way to really get better.
+</aside>
 
 ---
 
-# Testing is time ~~consuming~~
-# Testing is time WELL SPENT
+### Testing will make you a better programmer
 
-<!--
-What you should be expecting is to spend as much time testing, if not more, as you do programming.
-Some of your initial reactions to that might be - well I just don't have time for that.
-I know that because that's what I used to think when first confronted with the beast that is testing.
-But now I understand how important testing is and I've experienced first hand how much easier my
-life is further down the line if I have good tests in place. Now, I always make time for testing.
+<aside class="notes">
+There's no doubt about it - my programming has massively improved since I started writing tests regularly. If I program while holding the thought "How am I going to be able to test this easily?" it means that I arrive much quicker at unit functions that are: easy to test. What is a unit function:
 
-Time saved by not doing testing is a False Economy. You will spend much more time dealing with bugs
-in the future than you spent writing the tests. And if not you, then someone else will have to clear
-up your mess.
--->
+* should do one thing and one thing only
+* clear and concise
+
+Testing and programming should be a constant cycle. If you had to write a book or a report, you wouldn't hand in your first draft. The same should be true with code. Write some code, write some tests. Improve your code, improve your tests and so on. Tests are a tool for you to self edit your code.
+</aside>
 
 ---
 
-# Testing makes you a better programmer
+### Testing is documentation
 
-<!--
-There's no doubt about it - my programming has improved massively since I started
-writing tests as I go. Programming while holding the thought "How am I going to be
-able to test this easily?" has meant that I arrive much quicker at a point where
-I have functions representing single units of logic that can then, be easily tested.
+> Readability counts.
 
+&mdash; [PEP 20, The Zen of Python](https://www.python.org/dev/peps/pep-0020/)
 
+<aside class="notes">
+A good test script should be a joy to look at. It should take the reader through how a function or class is supposed to be used, and how it's not supposed to be used. It should show you what's going in, and what's coming out. The reader should have a clear cut example of the use of the function without the need to actually run it.
 
-I've seen it often across the ONS where someone will have some requirements, they'll
-hack together a solution which works and then they'll submit it on Friday. There. Done.
+I've highlighted there one line from the Zen of Python, "Readability Counts". It's as much true for test scripts as it is for your source files. If you thought you could simply write a passing test and that would be the end of it, well you have got another thing coming - let me tell you.
 
-What you've actually done in that scenario, is you've delivered the first draft... when
-the publisher was expecting to go to print on Monday. You've got a beginning and an end
-and some plot details, but you've taken a roundabout way to get there, you haven't
-conveyed your meaning or intentions very well. There's lots that could have been cut,
-changes you could have made to communicate things more clearly, and there's probably
-some sub-plots and loose ends which weren't tied up.
+For me, I want to see what's going in, what's being executed, and what's coming out. Anything else is a waste of space. And I'd want to be abstracting as much of that out of the test script as possible so that what I'm left with is all I need to get a clear understanding of what that function is supposed to be doing.
 
-The point I'm trying to make with that analogy is that it takes more than one draft to
-get a piece of work to a stage where you should be happy to deliver it. It's true of a
-report, it's true of an analysis and it's true of a computer program.
+Additionally, I want to see any data inputs or outputs in a way that is easy for my human brain to comprehend, preferably without scrolling - I'll come onto a few tips later on to help with this.
+</aside>
 
-These are the things you're aiming for:
-1. Accuracy
-   - We all deal in numbers that have an impact on people's lives. Important decisions are made off the back of statistics that we publish. So it's paramount that the statistics we deliver are are as accurate as can possibly be. You have an opportunity to automate validation of published statistics if testing is done right. Use it.
-2. Readable
-   - Your code needs to be readable.
-3. Maintainable
-4. Extensible
-
--->
+--
 
 > Indeed, the ratio of time spent reading versus writing is well over 10 to 1. We are constantly reading old code as part of the effort to write new code. ...Therefore, making it easy to read makes it easier to write.
 
 &mdash; Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship
 
-
-
----
-
-
-<!-- _layout: two-columns -->
-
-# What I'll be covering today
-
-<!-- <style>
-p { columns: 2; }
-</style> -->
-
-Will be covering
-
-  - Test structure
-  - What to test
-  - Test data
-  - Test parametrisation
-
-Won't be covering
-
-- How to use `pytest`
-- Mocks / monkey-patching
--
-
-<!--
-Mix of community best practice and personal opinion - feel free to challenge.
--->
+<aside class="notes">
+I just wanted to finish up this part with this quote. And to reiterate, treat your tests as a living piece of documentation for your code - because they are. And unlike comments or other forms of documentation, your tests can never really be out-of-date - as long as you are using some form of continuous integration to make sure your whole test suite passes.
+</aside>
 
 ---
 
+# Basics
 
-# Assert your authority
+---
 
-* The main component of any test is the `assert` statement.
-* `pytest` uses the built-in `assert` for universal testing of native Python objects.
-* Use `assert `:
-  * to test for object equality
-  * or whether some condition is True or False
+# Structure
+
+* Your tests should live in a directory at the top level of the project
+* Tests are grouped into modules in the test directory
+* The test directory should be a *mirror* of your source directory
+* Tests can be further grouped using test classes
+
+note:
+Not necessary to group into classes.
+
+---
+
+# Naming
+
+* Test modules should start with *test_*
+* So should your test functions
+* Name should be descriptive enough so you know what the test is
+* Don't worry if your test function names are long
+* Make it nice for pytest output
+
+--
+
+#### Function naming
+
+* Long and descriptive
+* Include function name
+
+![](/img/function_naming_example.png)
+
+--
+
+#### Class and function naming
+
+* No need to repeat the function name in the test functions
+* Comes through from the class name
+
+![](/img/class_name_examples.png)
+
+--
+
+#### Parametrised test naming
+
+* Avoid repetition
+
+Bad example
+![](/img/parametrised_case_naming_bad.png)
+
+Good example
+![](/img/parametrised_case_naming_good.png)
+
+
+<aside class="notes">
+I'll come onto test parametrisation a bit later, but put simply, it's just running the same test a number of times with a different set of parameters - which might be your inputs and outputs.
+</aside>
+
+---
+
+### Assert your authority
+
+* The main component of any test is the `assert` statement
+  * Tests whether some condition is True or False
 * The output of `assert` provides a comprehensive diff if objects are equal.
-* External libraries may provide their own assert functions e.g. `assert_frame_equal` in `pandas`
+* `pytest` uses the built-in `assert` for universal testing of native Python objects.
+* External libraries may provide their own assert functions e.g.
+  * `assert_frame_equal` in `pandas`
+  * `assert_approx_df_equality` in `chispa` (for Spark)
 
 
-<!--
+note:
 For unittest you need to memorise a number of assertion methods.
--->
 
 ---
 
-# A few thoughts on test data
+### A basic test
 
-* Only use the minimum amount of test data needed to properly satisfy the test case.
-    - Give example
-* For generalised functions -> generalise the test data.
-* Hard code your data where possible.
-* If difficult - maybe the function is doing too much.
+```python
+def to_snake_case(words: Sequence[str]) -> str:
+    return '_'.join(words)
 
+def test_to_snake_case():
+    test_input = ['talk', 'to', 'the', 'hand']
+    result = to_snake_case(test_input)
+    assert result == 'talk_to_the_hand'
+```
 
-<!--
-This may mean simplifying or stripping out the context of the original
-problem that it was created to solve.
--->
+###### Function {.fragment .current-only data-code-focus=1-2}
 
----
+###### Test function {.fragment .current-only data-code-focus=4-7}
 
-# You're doing too much
+###### Input {.fragment .current-only data-code-focus=5}
 
-* Remember, a function should do one thing and one thing only!
+###### Test result {.fragment .current-only data-code-focus=6}
 
-<style>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
-
-* Take with a pinch of salt.
-
-![w:200 center](https://media4.s-nbcnews.com/j/newscms/2017_05/1890591/170203-salt-bae-mn-1530_060e5898cdcf7b58f97126d3cfbfdf71.fit-2000w.jpg)
-
-* Consider writing a component test to cover the main expected behaviour of your program, then refactor a large function into multiple smaller units. Then test those units: voila! unit testing.
+###### Assert test result equals expected result {.fragment .current-only data-code-focus=7}
 
 ---
 
-# How do you know what to test? (1)
+### How do you know what to test? (1)
 
-* Positive testing: does the function have the expected output?
-* Edge cases: write a test for each.
-* Coverage: test for all relevant combinations of parameters.
-* Negative testing: put yourself in the users' shoes
-    - How might they break things?
-    - What error message would you like to see if you did?
+* Positive testing
+* Edge cases
+* Coverage
+* Negative testing
 
-<!--
+--
+
+### Positive Testing
+###### Does the function have the expected output?
+
+<aside class="notes">
 Contrive a simple example and calculate the expected output.
 
-* Do this in your head, or in Excel. Get someone else to check it and make sure they arrive at the same.
+Do this in your head, or in Excel. Get someone else to check it and make sure they arrive at the same.
+</aside>
 
+--
+
+### Edge Cases
+###### "An uncommon or odd occurrence."
+
+<aside class="notes">
 Firstly, edge cases are about foresight. Have a sit down and think about all the different and strange scenarios that the function will have to handle. When working with a collection of number values this might be: what happens when some of the values are zero or NaN? What happens if all the values are zero or NaN?
 
-TODO: “Never allow the same bug to bite you twice.” (Steve Maguire)
+Practicing writing test and catching bugs is the best way to develop your foresight.
+</aside>
 
+--
+
+> “Never allow the same bug to bite you twice.”
+
+<p style="text-align:center;">&mdash; Steve Maguire</p>
+
+<aside class="notes">
 They're also about hindsight: you may come across a bug in your test or production environments. When you're writing a fix for those, make sure to write a test too so you can be sure you don't introduce the same bug again. Same with any lines of code that aim to pre-emptively deal with a bug.
 
-If you want to develop your foresight: recommend some testing resources.
+One last thing on edge cases, if you are passing a pandas dataframe in as an input that contains several different edge cases in the data, if the test fails you won't know which edge case is breaking the data. Split each edge case out into it's own test.
+</aside>
+
+--
+
+### Coverage
+###### Test for all relevant combinations of parameters.
+
+<aside class="notes">
+Coverage:
+  If you have control-flow in your function such as an if/else statement, then you need to make sure that you test the code blocks for all available routes. Coverage is basically a % score for how many lines of your code are executed by the tests. Once you're familiar with testing: 100% coverage should be the aim. But it's not the be all and end all. A suite of bad tests can still achieve 100% coverage.
 
 Is the parameter a switch? Then test when it is on and test when it is off.
-Does the function work as expected when passed an argument with the data type it was expecting for that parameter. Does it work for other data types? Does it break in the expected way?
+</aside>
 
-Coverage:
-  If you have control-flow in your function such as an if/else statement, then you need to make sure that you test the code blocks for all available routes. Coverage is basically a % score for how many lines of your code are executed by the tests. 100% coverage should be the aim, but it's not the be all and end all. A suite of bad tests can still achieve 100% coverage.
+--
 
-What mistakes might a user make when using the function? How might they misuse it? Spending a little time thinking about this will help you write clearer code with a more usable API.
--->
+### Negative testing
+###### Put yourself in the users' shoes.
 
----
+<aside class="notes">
+- How might they break things?
+- What mistakes might be made when using the function?
+- What error message would you like to see?
+- How might they misuse it?
 
-# How do you know what to test? (2)
+Spending a little time thinking about this will help you write clearer code with a more usable API.
+</aside>
 
-* Numbers:
-  * Try positive numbers.
-  * Try negative.
-  * Try zeros.
-  * Try NaNs.
-* Data types:
-  * Try the data types you expect.
-  * Try the data types you don't expect - do they fail as expected?
-
----
+--
 
 <div>
   <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Devs watching QA test the product <a href="https://t.co/uuLTButB3x">pic.twitter.com/uuLTButB3x</a></p>&mdash; sanja zakovska 🌱 (@sanjazakovska) <a href="https://twitter.com/sanjazakovska/status/1352557733787152389?ref_src=twsrc%5Etfw">January 22, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
 
+---
+
+### How do you know what to test? (2)
+
+Numbers &mdash; try:
+  * Positives
+  * Negatives
+  * Zeros
+  * NaNs
+
+Data types &mdash; try:
+  * Types you expect
+  * Types you don't expect - do they fail as expected?
 
 ---
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9akWR7Bl2Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+### Priorities
 
-<div class="youtube-player" data-id="https://www.youtube.com/watch?v=9akWR7Bl2Mw"></div>
-
-![](https://www.youtube.com/watch?v=9akWR7Bl2Mw)
-
----
-
-# Dos and dont's
-
-**Don't** over test
-
+* Test the most complex or vulnerable parts of your code first
+* Focus on realistic use cases first
 
 ---
 
-# Test shells :shell:
+### Test data
+
+* Only use the minimum amount of test data needed to properly satisfy the test case.
+* If it's a dataframe, only include columns you need.
+* For generalised functions, generalise the test data.
+* Hard code your data where possible.
+* Keep the test data close to the test.
+* If difficult - maybe the function is doing too much.
+
+<aside class="notes">
+This may mean simplifying or stripping out the context of the original problem that it was created to solve.
+
+Where I generally make exceptions for hardcoding data are, if the data I want to test is too long so that I have to scroll to see the entire dataset in my editor. At that point you're losing the readability benefits of have the test data in the script. This only typically occurs when I'm doing component testing, as the inputs generally need to be more complex.
+
+If the data is small enough, and there is minimal extra setup - then just include the test data in the test body as that's the closest you can get.
+</aside>
+
+--
+
+#### How to layout your data
+
+```python
+@pytest.fixture
+def input_df_pandas():
+    """Return simple pandas input df for index method tests."""
+    return create_dataframe([
+        ('prices', 'base_prices', 'quantity', 'base_quantity'),
+        (2.46,  2.46, 17.0, 16.6),
+        (7.32,  7.2,  5.3,  5.4),
+        (1.13,  1.1,  2.1,  2.1),
+        (12.39, 11.2, 12.9, 13.3),
+        (6.63,  6.8,  7.2,  7.4),
+    ])
+```
+
+<aside class="notes">
+create_dataframe is a function in my conftest which calls the pandas DataFrame constructor but uses the first row as the column headers.
+
+It's just a simple thing but makes a big difference for readability.
+
+Some people like to align their data into neat columns here but that's a matter of preference.
+</aside>
+
+--
+
+#### Data sources
+
+* Unit tests - your own head
+* Component tests - get the business area to help
+* Mocking - use a fake data generator ([Faker](https://faker.readthedocs.io/en/master/index.html))
+
+---
+
+### Using fixtures
+
+```python
+@pytest.fixture
+def my_fixture():
+    return value
+```
+
+<aside class="notes">
+You may have noticed that the data in the previous slide was marked as a fixture.
+
+Fixtures are a form of dependency injection.
+
+They are special functions that are collected by the pytest runner, and they typically contain some data or object that is then injected into the test at the time that test is executed.
+
+When should you use a fixture? Typically if you have something you want to re-use several times.
+</aside>
+
+--
+
+### `conftest.py`
+
+* Sits in the top level of your tests directory
+  * (but can sit at any level)
+* Contains fixtures you want to share throughout your whole test suite
+
+--
+
+### Fixture scope
+###### Particularly useful for resource intensive setup
+
+```python
+@pytest.fixture(scope="session")
+def spark_session():
+    """Set up spark session fixture."""
+    print('Setting up test spark session')
+
+    os.environ['PYSPARK_PYTHON'] = '/usr/local/bin/python3'
+
+    suppress_py4j_logging()
+
+    return (
+        SparkSession
+        .builder
+        .master("local[2]")
+        .appName("cprices_test_context")
+        .config("spark.sql.shuffle.partitions", 1)
+        # .config("spark.jars", jar_path)
+        # This stops progress bars appearing in the console whilst running
+        .config('spark.ui.showConsoleProgress', 'false')
+        .getOrCreate()
+    )
+```
+
+--
+
+### Fixture functions
+
+Define using a closure or inner function.
+
+```python
+@pytest.fixture
+def to_spark(spark_session):
+    """Convert pandas df to spark."""
+    def _(df: pd.DataFrame):
+        return spark_session.createDataFrame(df)
+    return _
+```
+
+Use `input_df_pandas` from before.
+
+```python
+@pytest.fixture
+def input_df(to_spark, input_df_pandas):
+    """Return simple spark input df for index method tests."""
+    return to_spark(input_df_pandas)
+```
+
+<aside class="notes">
+This is necessary because of the inherent nature of fixtures.
+
+I find this useful as it means when I'm writing test data, the to_spark function is available to me whenever I need it. Because it's a fixture that lives in my conftest, I don't even need to import it.
+
+I tend to construct PySpark test data from pandas data, because it's more familiar, and there's no need to define the schema.
+</aside>
+
+---
+
+### Common pitfalls
+
+* Grouping tests by class but forgetting to add ``self`` to parameters
+* Forgetting to declare something as a fixture
+* Doing too much - cut your functions down.
+
+<aside class="notes">
+Remember, a function should do one thing and one thing only!
+
+Consider writing a component test to cover the main expected behaviour of your program, then refactor a large function into multiple smaller units. Then test those units: voila! unit testing.
+</aside>
+
+---
+
+### Rules that you can break
+
+* Max line length
+* Docstring conventions
+* Not being DRY
+
+<aside class="notes">
+Rules are meant to be broken right?
+
+Use your judgement.
+
+Don't worry about writing DRY code in test scripts, at least when starting out.
+</aside>
+
+---
+
+### Test shells 🐚
 
 Write a test shell so you know to come back to it.
 
@@ -304,21 +518,105 @@ class TestMyFunc:
         pass
 ```
 
-
 ---
 
-# Snakes in the grass :snake:
+### Snakes in the grass 🐍
 
 Mark your test shells as **skip** so that you can see where you have missing tests at a glance.
 
-<style>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 
-![w:600px center](img/snakes.png)
+![](img/snakes.png)
+
+---
+
+### Parametrising Tests
+###### Running the same test for multiple sets of inputs and outputs.
+
+--
+
+### Simple case
+
+```python
+@pytest.mark.parametrize(
+  'digits,expected',
+  [(3, 5.786) (1, 5.8), (0, 6), (8, 5.78646523)]
+)
+def test_round(digits):
+    assert round(5.78646523, digits) == expected
+```
+
+###### Using built in pytest.mark.parametrize
+
+##### Not very pretty or readable {.fragment .current-only data-code-focus=1-4}
+
+--
+
+### More complicated cases
+
+* Named test cases
+* Parametrising fixtures
+* Mixing fixtures with other types
+* Variable number of parameters
+
+Check out [mitches-got-glitches/testing-tips](https://github.com/mitches-got-glitches/testing-tips) for more info and examples.
+
+--
+
+##### Example
+
+```python
+@pytest.fixture(
+    params=[
+        Case(
+            label="carli_fixed_base",
+            index_method='carli',
+            base_price_method='fixed_base',
+            expout='large_output_carli_fixed_base.csv',
+        ),
+        Case(
+            label="dutot_fixed_base",
+            index_method='dutot',
+            base_price_method='fixed_base',
+            expout='large_output_dutot_fixed_base.csv',
+        ),
+        Case(
+            label="jevons_fixed_base",
+            index_method='jevons',
+            base_price_method='fixed_base',
+            expout='large_output_jevons_fixed_base.csv',
+        ),
+        Case(
+            label="laspeyres_fixed_base",
+            index_method='laspeyres',
+            base_price_method='fixed_base',
+            expout='large_output_laspeyres_fixed_base.csv',
+        ),
+    ],
+    ids=lambda x: x.label,
+)
+def case_parameters(request):
+    """Return the parameters for each test given by params."""
+    return get_case_parameters(request)
+
+
+def test_index_calculator_scenarios(
+    index_method_input_data_large,
+    case_parameters,
+    filename_to_pandas,
+):
+    """Test for this."""
+    expected_output = filename_to_pandas(case_parameters.pop('expout'))
+
+    actual_output = calculate_index(
+        index_method_input_data_large,
+        date_col='month',
+        levels=['group', 'id'],
+        **case_parameters,
+    )
+
+    assert_frame_equal(actual_output.reset_index(), expected_output)
+
+```
 
 ---
 
@@ -326,56 +624,74 @@ img[alt~="center"] {
 
 * Use the CSV to Python tuple converter file.
 * Use VS Code snippets.
-* Use multiple cursors / column selection in VS code.
+* Use VS code keyboard shortcuts.
+* Use VS code!!
+
+note:
+You have to be on DevTest.
+Dave has writtena good guide.
 
 ---
 
-![w:1100](img/screen_gif_test.gif)
+### VS Code
+##### Keyboard Shortcuts
+
+--
+
+###### Copy lines - SHIFT + ALT + Up/Down Arrow
+
+![](img/copy_lines.gif)
+
+--
+
+###### Select every occurrence
+
+<img height="500" data-src="img/select_every_occurrence.gif">
+
+--
+
+###### Replace all within selection
+###### CTRL + H then ALT + L
+
+<img height="520" data-src="img/replace_all_within_selection.gif">
+
+--
+
+###### Multiple cursors - ALT + click
+
+<img height="520" data-src="img/multiple_cursors.gif">
+
+--
+
+###### Multiple cursors - keyboard edition
+###### CTRL + ALT + up/down arrow
+
+<img height="520" data-src="img/multiple_cursors_keyboard.gif">
+
+--
+
+###### Column box selection - ALT + SHIFT + drag mouse
+
+<img height="520" data-src="img/column_box_selection.gif">
 
 ---
 
-<script>
-  /*
-   * Light YouTube Embeds by @labnol
-   * Credit: https://www.labnol.org/
-   */
+### Questions
 
-  function labnolIframe(div) {
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute(
-      'src',
-      'https://www.youtube.com/embed/' + div.dataset.id + '?autoplay=1&rel=0'
-    );
-    iframe.setAttribute('frameborder', '0');
-    iframe.setAttribute('allowfullscreen', '1');
-    iframe.setAttribute(
-      'allow',
-      'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-    );
-    div.parentNode.replaceChild(iframe, div);
-  }
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9akWR7Bl2Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-  function initYouTubeVideos() {
-    var playerElements = document.getElementsByClassName('youtube-player');
-    for (var n = 0; n < playerElements.length; n++) {
-      var videoId = playerElements[n].dataset.id;
-      var div = document.createElement('div');
-      div.setAttribute('data-id', videoId);
-      var thumbNode = document.createElement('img');
-      thumbNode.src = '//i.ytimg.com/vi/ID/hqdefault.jpg'.replace(
-        'ID',
-        videoId
-      );
-      div.appendChild(thumbNode);
-      var playButton = document.createElement('div');
-      playButton.setAttribute('class', 'play');
-      div.appendChild(playButton);
-      div.onclick = function () {
-        labnolIframe(this);
-      };
-      playerElements[n].appendChild(div);
-    }
-  }
+note:
+Questions
 
-  document.addEventListener('DOMContentLoaded', initYouTubeVideos);
-</script>
+---
+
+### Additional resources
+
+
+[Quality Assurance of Code for Analysis and Research](https://best-practice-and-impact.github.io/qa-of-code-guidance/testing_code.html)
+
+&mdash; Best Practice and Impact team
+
+<aside class="notes">
+If you're interested in what I used to create this presentation, it's reveal.js framework. I used it in combination with a VS code extension which enables you to build presentations from markdown.
+</aside>
