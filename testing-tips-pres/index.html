@@ -1,0 +1,1381 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>How to write good tests quickly and efficiently</title>
+
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- REVEAL CSS-->
+  <link rel="stylesheet" href="libs/reveal.js/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="libs/reveal.js/3.8.0/css/reveal.css">
+  
+  <link rel="stylesheet" href="libs/reveal.js/3.8.0/css/theme/white.css" id="theme">
+  
+  
+  <link rel="stylesheet" href="libs/reveal.js/3.8.0/plugin/title-footer/title-footer-mod.css" />
+
+  <!-- MERMAID-->
+  <script src="libs/reveal.js/3.8.0/plugin/mermaid/mermaid.min.js"></script>
+  <style>
+  .mermaid {
+    font-size: 0.5em;
+  }
+  </style>
+
+  <style>
+    [class*=task-list-item] {
+    min-height: 22px;
+    margin-top: 6px!important;
+    margin-bottom: 6px!important;
+    padding-left: 0;
+    list-style: none;
+}
+
+[class*=task-list-item]>input:first-child {
+    position: absolute!important;
+    opacity: 0;
+    margin: 0;
+}
+[class*=task-list-item]>label {
+    padding-left: 29px!important;
+    min-height: 22px;
+    line-height: 22px;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.task-list-item>input:first-child:checked+input[type=hidden]+label::before, .task-list-item>input:first-child:checked+label::before {
+    background-color: #ecf0f1;
+    border-color: #ecf0f1;
+}
+
+[class*=task-list-item]>input:first-child+input[type=hidden]+label::before, [class*=task-list-item]>input:first-child+label::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #D3CFC8;
+    border-radius: 0;
+    margin-left: -29px;
+}
+
+
+[class*=task-list-item]>input:first-child:checked+input[type=hidden]+label::after, [class*=task-list-item]>input:first-child:checked+label::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 7px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-left: none;
+    border-top: none;
+    transform: translate(7.75px,4.5px) rotate(45deg);
+    -ms-transform: translate(7.75px,4.5px) rotate(45deg);
+}
+
+
+.task-list-item>input:first-child:checked+input[type=hidden]+label::after, .task-list-item>input:first-child:checked+label::after {
+    border-bottom-color: #95a5a6;
+    border-right-color: #95a5a6;
+}
+  </style>
+
+  <!-- Theme used for syntax highlighting of code -->
+  
+  <link rel="stylesheet" href="libs/highlight.js/9.12.0/gruvbox-dark.css">
+  
+
+  
+  <link rel="stylesheet" href="css/parchment.css">
+  
+  
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'libs/reveal.js/3.8.0/css/print/pdf.css' : 'libs/reveal.js/3.8.0/css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+
+  <style>
+    /* Solarized Light theme */
+     .line {
+      display: block;
+    }
+    
+
+    .line.focus {
+      background: #fdf6e3;
+      color: #657b83;
+    }
+
+/*
+    .line.focus .hljs-comment,
+    .line.focus .hljs-quote {
+      color: #93a1a1;
+    }
+
+    .line.focus .hljs-keyword,
+    .line.focus .hljs-selector-tag,
+    .line.focus .hljs-addition {
+      color: #859900;
+    }
+
+    .line.focus .hljs-number,
+    .line.focus .hljs-string,
+    .line.focus .hljs-meta .hljs-meta-string,
+    .line.focus .hljs-literal,
+    .line.focus .hljs-doctag,
+    .line.focus .hljs-regexp {
+      color: #2aa198;
+    }
+
+    .line.focus .hljs-title,
+    .line.focus .hljs-section,
+    .line.focus .hljs-name,
+    .line.focus .hljs-selector-id,
+    .line.focus .hljs-selector-class {
+      color: #268bd2;
+    }
+
+    .line.focus .hljs-attribute,
+    .line.focus .hljs-attr,
+    .line.focus .hljs-variable,
+    .line.focus .hljs-template-variable,
+    .line.focus .hljs-class .hljs-title,
+    .line.focus .hljs-type {
+      color: #b58900;
+    }
+
+    .line.focus .hljs-symbol,
+    .line.focus .hljs-bullet,
+    .line.focus .hljs-subst,
+    .line.focus .hljs-meta,
+    .line.focus .hljs-meta .hljs-keyword,
+    .line.focus .hljs-selector-attr,
+    .line.focus .hljs-selector-pseudo,
+    .line.focus .hljs-link {
+      color: #cb4b16;
+    }
+
+    .line.focus .hljs-built_in,
+    .line.focus .hljs-deletion {
+      color: #dc322f;
+    }
+
+    .line.focus .hljs-formula {
+      background: #eee8d5;
+    }
+
+    .line.focus .hljs-emphasis {
+      font-style: italic;
+    }
+
+    .line.focus .hljs-strong {
+      font-weight: bold;
+    }
+
+    .yellow-slide .line.focus:nth-child(2) {
+      background: yellow;
+    }
+
+    .reveal .slides section .code-presenting-annotation {
+      font-size: 70%;
+    }
+    */
+
+    .reveal .slides section .fragment.current-only {
+      visibility: visible;
+      display: none;
+    }
+
+    .reveal .slides section .fragment.current-only.current-fragment {
+      display: block;
+    }
+
+/*
+    .line {
+      display: block;
+    }
+*/
+    .line.focus {
+       opacity: 1.0;
+    } 
+
+    /* .hljs {
+      background: none;
+    } */
+
+    /* .reveal pre {
+      width: 98%;
+      margin: 0px;
+      box-shadow: none;
+    }
+
+    .reveal pre code {
+      font-size: 1.2em;
+      line-height: 1.2;
+      border-radius: 10px;
+      max-height: 60vh !important;
+      overflow: hidden !important;
+    } */
+
+    @media (device-width: 100vw) and (device-height: 100vh) {
+      .reveal pre code {
+        max-height: 50vh !important;
+      }
+    }
+
+    #logo img {
+      max-height: 3.5em;
+      max-width: none;
+      min-width: 50px;
+    }
+
+    .reveal .slides section .code-presenting-annotation {
+      color: white;
+      background: black;
+      padding: 0px 15px;
+      border-radius: 15px;
+      opacity: 0.75 !important;
+      font-size: 50% !important;
+    }
+  </style>
+  <script>
+    if (window.location.search.match(/print-pdf-now/gi)) {
+      window.print();
+    }
+  </script>
+</head>
+
+<body>
+  
+<div id="logo" style="position: fixed; top: 20px; left: 20px; z-index: 1">
+    <img src="logo.png" />
+</div>
+
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-how-to-write-good-tests-quickly-and-efficiently" class="anchor" href="#how-to-write-good-tests-quickly-and-efficiently" aria-hidden="true"></a>How to write good tests quickly and efficiently</h3>
+<h5><a id="user-content-mitch-edmunds" class="anchor" href="#mitch-edmunds" aria-hidden="true"></a>Mitch Edmunds</h5>
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="/path/to/styles/default.css">
+  <script src="/path/to/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> -->
+</head>
+<aside class="notes">
+Who here:
+<ul>
+<li>confident at testing?</li>
+<li>They’re a pro at testing</li>
+<li>Hasn’t really done any testing?</li>
+</ul>
+<p>For those that haven’t done any testing - what’s been stopping you?</p>
+</aside>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-some-of-my-favourite-views" class="anchor" href="#some-of-my-favourite-views" aria-hidden="true"></a>Some of my favourite views…</h3>
+
+            </section>
+        
+            <section >
+                <p><img src="img/tuscan_hills.jpg" alt="Tuscan Hills"></p>
+<h3><a id="user-content-tuscan-hills-italy" class="anchor" href="#tuscan-hills-italy" aria-hidden="true"></a>Tuscan Hills, Italy</h3>
+
+            </section>
+        
+            <section >
+                <p><img src="img/polly_joke_beach.jpg" alt="Poly Joke Beach"></p>
+<h3><a id="user-content-poly-joke-beach-cornwall" class="anchor" href="#poly-joke-beach-cornwall" aria-hidden="true"></a>Poly Joke Beach, Cornwall</h3>
+
+            </section>
+        
+            <section >
+                <img height="350" data-src="img/pytest_output.png">
+<h3><a id="user-content-a-passing-test-suite" class="anchor" href="#a-passing-test-suite" aria-hidden="true"></a>A passing test suite</h3>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-testing-is-time-consuming" class="anchor" href="#testing-is-time-consuming" aria-hidden="true"></a>Testing is time <s>consuming</s></h3>
+<h3><a id="user-content-testing-is-time-well-spent" class="anchor" href="#testing-is-time-well-spent" aria-hidden="true"></a>Testing is time WELL SPENT</h3>
+<!-- <div class="tenor-gif-embed" data-postid="10243842" data-share-method="host" data-width="50%" data-aspect-ratio="1.0"><a href="https://tenor.com/view/nobody-got-time-for-that-gif-10243842">Nobody Got Time For That AIntnobody Got Time For That GIF</a> from <a href="https://tenor.com/search/nobodygottimeforthat-gifs">Nobodygottimeforthat GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script> -->
+<aside class="notes">
+You should be spending as much time testing, if not more, as you do programming.
+<p>Some of your initial reactions to that might be - well I just don’t have time for that.
+I know that because that’s what I used to think when first confronted with the beast that is testing.</p>
+<p>But now through first hand experience, I’ve come to understand how important testing is. My life is so much easier down the line if I take the time to put some good tests in place. Now, I always make time for testing, and you should to. Testing is important and you should be making that clear to the business area that you’re working for. Make it clear to them that if time is not made for testing, then you are potentially compromising the quality of the statistics. Not only that, but you’re going to get a whole heap of problems down the line if the requirements happen to change. Set their expectations and set them as early as possible. Then voila, you should then have time for testing.</p>
+<p>If you are tempted to just carry on - you’ve built your feature, you’ve done some exploratory testing, you can see that it seems to be working for your inputs - let me just make it clear once again that time saved by not doing testing is a False Economy. You will spend much more time dealing with bugs in the future than you spent writing the tests. And if not you, then someone else will have to clear up your mess.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <blockquote>
+<p>Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.</p>
+</blockquote>
+<p>— Martin Golding</p>
+<aside class="notes">
+Quite often that person will be you. During the short time I was in Prices, 2 people retired after more than 40 years. It will come back to haunt you.
+</aside>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-testing-is-a-skill" class="anchor" href="#testing-is-a-skill" aria-hidden="true"></a>Testing is a skill</h3>
+
+            </section>
+        
+            <section >
+                <ul>
+<li>Read a book or some blog posts on the topic
+<ul>
+<li><a href="https://realpython.com/python-testing/">Getting Started With Testing in Python</a> - Real Python</li>
+<li><a href="https://www.oreilly.com/library/view/python-testing-with/9781680502848/">Python testing with pytest</a> - Brian Okken</li>
+</ul>
+</li>
+<li>Read the <a href="https://docs.pytest.org/en/stable/getting-started.html">basics of the pytest documentation</a></li>
+<li>Read some tests in a Python library that you like</li>
+<li><strong>Write tests!</strong></li>
+</ul>
+<aside class="notes">
+Remember that there are people out there with the job title "Tester".
+And learning how to test is not easy, so don't beat yourself up if you hit a few stumbling blocks. It will take time - but it is a skill worth investing in.
+<p>What can you do to get better at testing?</p>
+<p>The number one most important thing to get better at testing, is to Write some tests!
+Take the time to figure out what works and what doesn’t. Write a test, get it to pass. Write another one - it’s the only way to really get better.</p>
+</aside>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-testing-will-make-you-a-better-programmer" class="anchor" href="#testing-will-make-you-a-better-programmer" aria-hidden="true"></a>Testing will make you a better programmer</h3>
+<aside class="notes">
+There's no doubt about it - my programming has massively improved since I started writing tests regularly. If I program while holding the thought "How am I going to be able to test this easily?" it means that I arrive much quicker at unit functions that are: easy to test. What is a unit function:
+<ul>
+<li>should do one thing and one thing only</li>
+<li>clear and concise</li>
+</ul>
+<p>Testing and programming should be a constant cycle. If you had to write a book or a report, you wouldn’t hand in your first draft. The same should be true with code. Write some code, write some tests. Improve your code, improve your tests and so on. Tests are a tool for you to self edit your code.</p>
+</aside>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-testing-is-documentation" class="anchor" href="#testing-is-documentation" aria-hidden="true"></a>Testing is documentation</h3>
+<blockquote>
+<p>Readability counts.</p>
+</blockquote>
+<p>— <a href="https://www.python.org/dev/peps/pep-0020/">PEP 20, The Zen of Python</a></p>
+<aside class="notes">
+A good test script should be a joy to look at. It should take the reader through how a function or class is supposed to be used, and how it's not supposed to be used. It should show you what's going in, and what's coming out. The reader should have a clear cut example of the use of the function without the need to actually run it.
+<p>I’ve highlighted there one line from the Zen of Python, “Readability Counts”. It’s as much true for test scripts as it is for your source files. If you thought you could simply write a passing test and that would be the end of it, well you have got another thing coming - let me tell you.</p>
+<p>For me, I want to see what’s going in, what’s being executed, and what’s coming out. Anything else is a waste of space. And I’d want to be abstracting as much of that out of the test script as possible so that what I’m left with is all I need to get a clear understanding of what that function is supposed to be doing.</p>
+<p>Additionally, I want to see any data inputs or outputs in a way that is easy for my human brain to comprehend, preferably without scrolling - I’ll come onto a few tips later on to help with this.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <blockquote>
+<p>Indeed, the ratio of time spent reading versus writing is well over 10 to 1. We are constantly reading old code as part of the effort to write new code. …Therefore, making it easy to read makes it easier to write.</p>
+</blockquote>
+<p>— Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship</p>
+<aside class="notes">
+I just wanted to finish up this part with this quote. And to reiterate, treat your tests as a living piece of documentation for your code - because they are. And unlike comments or other forms of documentation, your tests can never really be out-of-date - as long as you are using some form of continuous integration to make sure your whole test suite passes.
+</aside>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1><a id="user-content-basics" class="anchor" href="#basics" aria-hidden="true"></a>Basics</h1>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1><a id="user-content-structure" class="anchor" href="#structure" aria-hidden="true"></a>Structure</h1>
+<ul>
+<li>Your tests should live in a directory at the top level of the project</li>
+<li>Tests are grouped into modules in the test directory</li>
+<li>The test directory should be a <em>mirror</em> of your source directory</li>
+<li>Tests can be further grouped using test classes</li>
+</ul>
+<aside class="notes">
+Not necessary to group into classes.</aside>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h1><a id="user-content-naming" class="anchor" href="#naming" aria-hidden="true"></a>Naming</h1>
+<ul>
+<li>Test modules should start with <em>test_</em></li>
+<li>So should your test functions</li>
+<li>Name should be descriptive enough so you know what the test is</li>
+<li>Don’t worry if your test function names are long</li>
+<li>Make it nice for pytest output</li>
+</ul>
+
+            </section>
+        
+            <section >
+                <h4><a id="user-content-function-naming" class="anchor" href="#function-naming" aria-hidden="true"></a>Function naming</h4>
+<ul>
+<li>Long and descriptive</li>
+<li>Include function name</li>
+</ul>
+<p><img src="/img/function_naming_example.png" alt=""></p>
+
+            </section>
+        
+            <section >
+                <h4><a id="user-content-class-and-function-naming" class="anchor" href="#class-and-function-naming" aria-hidden="true"></a>Class and function naming</h4>
+<ul>
+<li>No need to repeat the function name in the test functions</li>
+<li>Comes through from the class name</li>
+</ul>
+<p><img src="/img/class_name_examples.png" alt=""></p>
+
+            </section>
+        
+            <section >
+                <h4><a id="user-content-parametrised-test-naming" class="anchor" href="#parametrised-test-naming" aria-hidden="true"></a>Parametrised test naming</h4>
+<ul>
+<li>Avoid repetition</li>
+</ul>
+<p>Bad example
+<img src="/img/parametrised_case_naming_bad.png" alt=""></p>
+<p>Good example
+<img src="/img/parametrised_case_naming_good.png" alt=""></p>
+<aside class="notes">
+I'll come onto test parametrisation a bit later, but put simply, it's just running the same test a number of times with a different set of parameters - which might be your inputs and outputs.
+</aside>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-assert-your-authority" class="anchor" href="#assert-your-authority" aria-hidden="true"></a>Assert your authority</h3>
+<ul>
+<li>The main component of any test is the <code>assert</code> statement
+<ul>
+<li>Tests whether some condition is True or False</li>
+</ul>
+</li>
+</ul>
+<!-- * The output of `assert` provides a comprehensive diff if objects are equal. -->
+<ul>
+<li><code>pytest</code> uses the built-in <code>assert</code> for universal testing of native Python objects.</li>
+<li>External libraries may provide their own assert functions e.g.
+<ul>
+<li><code>assert_frame_equal</code> in <code>pandas</code></li>
+<li><code>assert_approx_df_equality</code> in <code>chispa</code> (for Spark)</li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+For unittest you need to memorise a number of assertion methods.</aside>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-a-basic-test" class="anchor" href="#a-basic-test" aria-hidden="true"></a>A basic test</h3>
+<pre><code class="language-python">def to_snake_case(words: Sequence[str]) -&gt; str:
+    return '_'.join(words)
+
+def test_to_snake_case():
+    test_input = ['talk', 'to', 'the', 'hand']
+    result = to_snake_case(test_input)
+    assert result == 'talk_to_the_hand'
+</code></pre>
+<h6 class="fragment current-only" data-code-focus="1-2"><a id="user-content-function" class="anchor" href="#function" aria-hidden="true"></a>Function</h6>
+<h6 class="fragment current-only" data-code-focus="4-7"><a id="user-content-test-function" class="anchor" href="#test-function" aria-hidden="true"></a>Test function</h6>
+<h6 class="fragment current-only" data-code-focus="5"><a id="user-content-input" class="anchor" href="#input" aria-hidden="true"></a>Input</h6>
+<h6 class="fragment current-only" data-code-focus="6"><a id="user-content-test-result" class="anchor" href="#test-result" aria-hidden="true"></a>Test result</h6>
+<h6 class="fragment current-only" data-code-focus="7"><a id="user-content-assert-test-result-equals-expected-result" class="anchor" href="#assert-test-result-equals-expected-result" aria-hidden="true"></a>Assert test result equals expected result</h6>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-how-do-you-know-what-to-test-1" class="anchor" href="#how-do-you-know-what-to-test-1" aria-hidden="true"></a>How do you know what to test? (1)</h3>
+<ul>
+<li>Positive testing</li>
+<li>Edge cases</li>
+<li>Coverage</li>
+<li>Negative testing</li>
+</ul>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-positive-testing" class="anchor" href="#positive-testing" aria-hidden="true"></a>Positive Testing</h3>
+<h6><a id="user-content-does-the-function-have-the-expected-output" class="anchor" href="#does-the-function-have-the-expected-output" aria-hidden="true"></a>Does the function have the expected output?</h6>
+<aside class="notes">
+Contrive a simple example and calculate the expected output.
+<p>Do this in your head, or in Excel. Get someone else to check it and make sure they arrive at the same.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-edge-cases" class="anchor" href="#edge-cases" aria-hidden="true"></a>Edge Cases</h3>
+<h6><a id="user-content-an-uncommon-or-odd-occurrence" class="anchor" href="#an-uncommon-or-odd-occurrence" aria-hidden="true"></a>“An uncommon or odd occurrence.”</h6>
+<aside class="notes">
+Firstly, edge cases are about foresight. Have a sit down and think about all the different and strange scenarios that the function will have to handle. When working with a collection of number values this might be: what happens when some of the values are zero or NaN? What happens if all the values are zero or NaN?
+<p>Practicing writing test and catching bugs is the best way to develop your foresight.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <blockquote>
+<p>“Never allow the same bug to bite you twice.”</p>
+</blockquote>
+<p style="text-align:center;">&mdash; Steve Maguire</p>
+<aside class="notes">
+They're also about hindsight: you may come across a bug in your test or production environments. When you're writing a fix for those, make sure to write a test too so you can be sure you don't introduce the same bug again. Same with any lines of code that aim to pre-emptively deal with a bug.
+<p>One last thing on edge cases, if you are passing a pandas dataframe in as an input that contains several different edge cases in the data, if the test fails you won’t know which edge case is breaking the data. Split each edge case out into it’s own test.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-coverage" class="anchor" href="#coverage" aria-hidden="true"></a>Coverage</h3>
+<h6><a id="user-content-test-for-all-relevant-combinations-of-parameters" class="anchor" href="#test-for-all-relevant-combinations-of-parameters" aria-hidden="true"></a>Test for all relevant combinations of parameters.</h6>
+<aside class="notes">
+Coverage:
+  If you have control-flow in your function such as an if/else statement, then you need to make sure that you test the code blocks for all available routes. Coverage is basically a % score for how many lines of your code are executed by the tests. Once you're familiar with testing: 100% coverage should be the aim. But it's not the be all and end all. A suite of bad tests can still achieve 100% coverage.
+<p>Is the parameter a switch? Then test when it is on and test when it is off.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-negative-testing" class="anchor" href="#negative-testing" aria-hidden="true"></a>Negative testing</h3>
+<h6><a id="user-content-put-yourself-in-the-users-shoes" class="anchor" href="#put-yourself-in-the-users-shoes" aria-hidden="true"></a>Put yourself in the users’ shoes.</h6>
+<aside class="notes">
+- How might they break things?
+- What mistakes might be made when using the function?
+- What error message would you like to see?
+- How might they misuse it?
+<p>Spending a little time thinking about this will help you write clearer code with a more usable API.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <div>
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Devs watching QA test the product <a href="https://t.co/uuLTButB3x">pic.twitter.com/uuLTButB3x</a></p>&mdash; sanja zakovska 🌱 (@sanjazakovska) <a href="https://twitter.com/sanjazakovska/status/1352557733787152389?ref_src=twsrc%5Etfw">January 22, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-how-do-you-know-what-to-test-2" class="anchor" href="#how-do-you-know-what-to-test-2" aria-hidden="true"></a>How do you know what to test? (2)</h3>
+<p>Numbers — try:</p>
+<ul>
+<li>Positives</li>
+<li>Negatives</li>
+<li>Zeros</li>
+<li>NaNs</li>
+</ul>
+<p>Data types — try:</p>
+<ul>
+<li>Types you expect</li>
+<li>Types you don’t expect - do they fail as expected?</li>
+</ul>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-priorities" class="anchor" href="#priorities" aria-hidden="true"></a>Priorities</h3>
+<ul>
+<li>Test the most complex or vulnerable parts of your code first</li>
+<li>Focus on realistic use cases first</li>
+</ul>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-test-data" class="anchor" href="#test-data" aria-hidden="true"></a>Test data</h3>
+<ul>
+<li>Only use the minimum amount of test data needed to properly satisfy the test case.</li>
+<li>If it’s a dataframe, only include columns you need.</li>
+<li>For generalised functions, generalise the test data.</li>
+<li>Hard code your data where possible.</li>
+<li>Keep the test data close to the test.</li>
+<li>If difficult - maybe the function is doing too much.</li>
+</ul>
+<aside class="notes">
+This may mean simplifying or stripping out the context of the original problem that it was created to solve.
+<p>Where I generally make exceptions for hardcoding data are, if the data I want to test is too long so that I have to scroll to see the entire dataset in my editor. At that point you’re losing the readability benefits of have the test data in the script. This only typically occurs when I’m doing component testing, as the inputs generally need to be more complex.</p>
+<p>If the data is small enough, and there is minimal extra setup - then just include the test data in the test body as that’s the closest you can get.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <h4><a id="user-content-how-to-layout-your-data" class="anchor" href="#how-to-layout-your-data" aria-hidden="true"></a>How to layout your data</h4>
+<pre><code class="language-python">@pytest.fixture
+def input_df_pandas():
+    &quot;&quot;&quot;Return simple pandas input df for index method tests.&quot;&quot;&quot;
+    return create_dataframe([
+        ('prices', 'base_prices', 'quantity', 'base_quantity'),
+        (2.46,  2.46, 17.0, 16.6),
+        (7.32,  7.2,  5.3,  5.4),
+        (1.13,  1.1,  2.1,  2.1),
+        (12.39, 11.2, 12.9, 13.3),
+        (6.63,  6.8,  7.2,  7.4),
+    ])
+</code></pre>
+<aside class="notes">
+create_dataframe is a function in my conftest which calls the pandas DataFrame constructor but uses the first row as the column headers.
+<p>It’s just a simple thing but makes a big difference for readability.</p>
+<p>Some people like to align their data into neat columns here but that’s a matter of preference.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <h4><a id="user-content-data-sources" class="anchor" href="#data-sources" aria-hidden="true"></a>Data sources</h4>
+<ul>
+<li>Unit tests - your own head</li>
+<li>Component tests - get the business area to help</li>
+<li>Mocking - use a fake data generator (<a href="https://faker.readthedocs.io/en/master/index.html">Faker</a>)</li>
+</ul>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-using-fixtures" class="anchor" href="#using-fixtures" aria-hidden="true"></a>Using fixtures</h3>
+<pre><code class="language-python">@pytest.fixture
+def my_fixture():
+    return value
+</code></pre>
+<aside class="notes">
+You may have noticed that the data in the previous slide was marked as a fixture.
+<p>Fixtures are a form of dependency injection.</p>
+<p>They are special functions that are collected by the pytest runner, and they typically contain some data or object that is then injected into the test at the time that test is executed.</p>
+<p>When should you use a fixture? Typically if you have something you want to re-use several times.</p>
+</aside>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-conftestpy" class="anchor" href="#conftestpy" aria-hidden="true"></a><code>conftest.py</code></h3>
+<ul>
+<li>Sits in the top level of your tests directory
+<ul>
+<li>(but can sit at any level)</li>
+</ul>
+</li>
+<li>Contains fixtures you want to share throughout your whole test suite</li>
+</ul>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-fixture-scope" class="anchor" href="#fixture-scope" aria-hidden="true"></a>Fixture scope</h3>
+<h6><a id="user-content-particularly-useful-for-resource-intensive-setup" class="anchor" href="#particularly-useful-for-resource-intensive-setup" aria-hidden="true"></a>Particularly useful for resource intensive setup</h6>
+<pre><code class="language-python">@pytest.fixture(scope=&quot;session&quot;)
+def spark_session():
+    &quot;&quot;&quot;Set up spark session fixture.&quot;&quot;&quot;
+    print('Setting up test spark session')
+
+    os.environ['PYSPARK_PYTHON'] = '/usr/local/bin/python3'
+
+    suppress_py4j_logging()
+
+    return (
+        SparkSession
+        .builder
+        .master(&quot;local[2]&quot;)
+        .appName(&quot;cprices_test_context&quot;)
+        .config(&quot;spark.sql.shuffle.partitions&quot;, 1)
+        # .config(&quot;spark.jars&quot;, jar_path)
+        # This stops progress bars appearing in the console whilst running
+        .config('spark.ui.showConsoleProgress', 'false')
+        .getOrCreate()
+    )
+</code></pre>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-fixture-functions" class="anchor" href="#fixture-functions" aria-hidden="true"></a>Fixture functions</h3>
+<p>Define using a closure or inner function.</p>
+<pre><code class="language-python">@pytest.fixture
+def to_spark(spark_session):
+    &quot;&quot;&quot;Convert pandas df to spark.&quot;&quot;&quot;
+    def _(df: pd.DataFrame):
+        return spark_session.createDataFrame(df)
+    return _
+</code></pre>
+<p>Use <code>input_df_pandas</code> from before.</p>
+<pre><code class="language-python">@pytest.fixture
+def input_df(to_spark, input_df_pandas):
+    &quot;&quot;&quot;Return simple spark input df for index method tests.&quot;&quot;&quot;
+    return to_spark(input_df_pandas)
+</code></pre>
+<aside class="notes">
+This is necessary because of the inherent nature of fixtures.
+<p>I find this useful as it means when I’m writing test data, the to_spark function is available to me whenever I need it. Because it’s a fixture that lives in my conftest, I don’t even need to import it.</p>
+<p>I tend to construct PySpark test data from pandas data, because it’s more familiar, and there’s no need to define the schema.</p>
+</aside>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-common-pitfalls" class="anchor" href="#common-pitfalls" aria-hidden="true"></a>Common pitfalls</h3>
+<ul>
+<li>Grouping tests by class but forgetting to add <code>self</code> to parameters</li>
+<li>Forgetting to declare something as a fixture</li>
+<li>Doing too much - cut your functions down.</li>
+</ul>
+<aside class="notes">
+Remember, a function should do one thing and one thing only!
+<p>Consider writing a component test to cover the main expected behaviour of your program, then refactor a large function into multiple smaller units. Then test those units: voila! unit testing.</p>
+</aside>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-rules-that-you-can-break" class="anchor" href="#rules-that-you-can-break" aria-hidden="true"></a>Rules that you can break</h3>
+<ul>
+<li>Max line length</li>
+<li>Docstring conventions</li>
+<li>Not being DRY</li>
+</ul>
+<aside class="notes">
+Rules are meant to be broken right?
+<p>Use your judgement.</p>
+<p>Don’t worry about writing DRY code in test scripts, at least when starting out.</p>
+</aside>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-test-shells-" class="anchor" href="#test-shells-" aria-hidden="true"></a>Test shells 🐚</h3>
+<p>Write a test shell so you know to come back to it.</p>
+<pre><code class="language-python">class TestMyFunc:
+    &quot;&quot;&quot;Group of tests for my_func.&quot;&quot;&quot;
+
+    @pytest.mark.skip(reason=&quot;test shell&quot;)
+    def test_my_func(self):
+        &quot;&quot;&quot;Test for my_func.&quot;&quot;&quot;
+        pass
+</code></pre>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-snakes-in-the-grass-" class="anchor" href="#snakes-in-the-grass-" aria-hidden="true"></a>Snakes in the grass 🐍</h3>
+<p>Mark your test shells as <strong>skip</strong> so that you can see where you have missing tests at a glance.</p>
+<img height="400" data-src="img/snakes.png">
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-parametrising-tests" class="anchor" href="#parametrising-tests" aria-hidden="true"></a>Parametrising Tests</h3>
+<h6><a id="user-content-running-the-same-test-for-multiple-sets-of-inputs-and-outputs" class="anchor" href="#running-the-same-test-for-multiple-sets-of-inputs-and-outputs" aria-hidden="true"></a>Running the same test for multiple sets of inputs and outputs.</h6>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-simple-case" class="anchor" href="#simple-case" aria-hidden="true"></a>Simple case</h3>
+<pre><code class="language-python">@pytest.mark.parametrize(
+  'digits,expected',
+  [(3, 5.786) (1, 5.8), (0, 6), (8, 5.78646523)]
+)
+def test_round(digits):
+    assert round(5.78646523, digits) == expected
+</code></pre>
+<h6><a id="user-content-using-built-in-pytestmarkparametrize" class="anchor" href="#using-built-in-pytestmarkparametrize" aria-hidden="true"></a>Using built in pytest.mark.parametrize</h6>
+<h5 class="fragment current-only" data-code-focus="1-4"><a id="user-content-not-very-pretty-or-readable" class="anchor" href="#not-very-pretty-or-readable" aria-hidden="true"></a>Not very pretty or readable</h5>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-more-complicated-cases" class="anchor" href="#more-complicated-cases" aria-hidden="true"></a>More complicated cases</h3>
+<ul>
+<li>Named test cases</li>
+<li>Parametrising fixtures</li>
+<li>Mixing fixtures with other types</li>
+<li>Variable number of parameters</li>
+</ul>
+<p>Check out <a href="https://github.com/mitches-got-glitches/testing-tips">mitches-got-glitches/testing-tips</a> for more info and examples.</p>
+
+            </section>
+        
+            <section >
+                <h5><a id="user-content-example" class="anchor" href="#example" aria-hidden="true"></a>Example</h5>
+<pre><code class="language-python">@pytest.fixture(
+    params=[
+        Case(
+            label=&quot;carli_fixed_base&quot;,
+            index_method='carli',
+            base_price_method='fixed_base',
+            expout='large_output_carli_fixed_base.csv',
+        ),
+        Case(
+            label=&quot;dutot_fixed_base&quot;,
+            index_method='dutot',
+            base_price_method='fixed_base',
+            expout='large_output_dutot_fixed_base.csv',
+        ),
+        Case(
+            label=&quot;jevons_fixed_base&quot;,
+            index_method='jevons',
+            base_price_method='fixed_base',
+            expout='large_output_jevons_fixed_base.csv',
+        ),
+        Case(
+            label=&quot;laspeyres_fixed_base&quot;,
+            index_method='laspeyres',
+            base_price_method='fixed_base',
+            expout='large_output_laspeyres_fixed_base.csv',
+        ),
+    ],
+    ids=lambda x: x.label,
+)
+def case_parameters(request):
+    &quot;&quot;&quot;Return the parameters for each test given by params.&quot;&quot;&quot;
+    return get_case_parameters(request)
+
+
+def test_index_calculator_scenarios(
+    index_method_input_data_large,
+    case_parameters,
+    filename_to_pandas,
+):
+    &quot;&quot;&quot;Test for this.&quot;&quot;&quot;
+    expected_output = filename_to_pandas(case_parameters.pop('expout'))
+
+    actual_output = calculate_index(
+        index_method_input_data_large,
+        date_col='month',
+        levels=['group', 'id'],
+        **case_parameters,
+    )
+
+    assert_frame_equal(actual_output.reset_index(), expected_output)
+
+</code></pre>
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1><a id="user-content-final-tips-and-tricks" class="anchor" href="#final-tips-and-tricks" aria-hidden="true"></a>Final tips and tricks</h1>
+<ul>
+<li>Use the CSV to Python tuple converter file.</li>
+<li>Use VS Code snippets.</li>
+<li>Use VS code keyboard shortcuts.</li>
+<li>Use VS code!!</li>
+</ul>
+<aside class="notes">
+You have to be on DevTest.
+Dave has writtena good guide.</aside>
+
+            </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-vs-code" class="anchor" href="#vs-code" aria-hidden="true"></a>VS Code</h3>
+<h5><a id="user-content-keyboard-shortcuts" class="anchor" href="#keyboard-shortcuts" aria-hidden="true"></a>Keyboard Shortcuts</h5>
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-copy-lines---shift--alt--updown-arrow" class="anchor" href="#copy-lines---shift--alt--updown-arrow" aria-hidden="true"></a>Copy lines - SHIFT + ALT + Up/Down Arrow</h6>
+<p><img src="img/copy_lines.gif" alt=""></p>
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-select-every-occurrence" class="anchor" href="#select-every-occurrence" aria-hidden="true"></a>Select every occurrence</h6>
+<img height="500" data-src="img/select_every_occurrence.gif">
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-replace-all-within-selection" class="anchor" href="#replace-all-within-selection" aria-hidden="true"></a>Replace all within selection</h6>
+<h6><a id="user-content-ctrl--h-then-alt--l" class="anchor" href="#ctrl--h-then-alt--l" aria-hidden="true"></a>CTRL + H then ALT + L</h6>
+<img height="520" data-src="img/replace_all_within_selection.gif">
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-multiple-cursors---alt--click" class="anchor" href="#multiple-cursors---alt--click" aria-hidden="true"></a>Multiple cursors - ALT + click</h6>
+<img height="520" data-src="img/multiple_cursors.gif">
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-multiple-cursors---keyboard-edition" class="anchor" href="#multiple-cursors---keyboard-edition" aria-hidden="true"></a>Multiple cursors - keyboard edition</h6>
+<h6><a id="user-content-ctrl--alt--updown-arrow" class="anchor" href="#ctrl--alt--updown-arrow" aria-hidden="true"></a>CTRL + ALT + up/down arrow</h6>
+<img height="520" data-src="img/multiple_cursors_keyboard.gif">
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-column-box-selection---alt--shift--drag-mouse" class="anchor" href="#column-box-selection---alt--shift--drag-mouse" aria-hidden="true"></a>Column box selection - ALT + SHIFT + drag mouse</h6>
+<img height="520" data-src="img/column_box_selection.gif">
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-questions" class="anchor" href="#questions" aria-hidden="true"></a>Questions</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9akWR7Bl2Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<aside class="notes">
+Questions</aside>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-additional-resources" class="anchor" href="#additional-resources" aria-hidden="true"></a>Additional resources</h3>
+<p><a href="https://best-practice-and-impact.github.io/qa-of-code-guidance/testing_code.html">Quality Assurance of Code for Analysis and Research</a></p>
+<p>— Best Practice and Impact team</p>
+<aside class="notes">
+If you're interested in what I used to create this presentation, it's reveal.js framework. I used it in combination with a VS code extension which enables you to build presentations from markdown.
+</aside>
+            </section>
+    
+
+
+    </div>
+
+
+  </div>
+
+  <script src="libs/reveal.js/3.8.0/lib/js/head.min.js"></script>
+  <script src="libs/reveal.js/3.8.0/js/reveal.js"></script>
+
+  <script>
+
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+
+        controls: true,
+        controlsTutorial: true,
+        controlsLayout: 'bottom-right',
+        controlsBackArrows: 'faded',
+        progress: true,
+        slideNumber: false,
+        history: true,
+        keyboard: true,
+        overview: true,
+        center: true,
+        touch: true,
+        loop: false,
+        rtl: false,
+        shuffle: false,
+        fragments: true,
+        fragmentInURL: false,
+        embedded: false,
+        help: true,
+        showNotes: false,
+        autoPlayMedia: false,
+        autoSlide: 0,
+        autoSlideStoppable: true,
+        autoSlideMethod: Reveal.navigateNext,
+        defaultTiming: 120,
+        mouseWheel: false,
+        hideAddressBar: true,
+        previewLinks: false,
+        transition: 'slide',
+        transitionSpeed: 'default',
+        backgroundTransition: 'default',
+        viewDistance: 3,
+        parallaxBackgroundImage: '',
+        parallaxBackgroundSize: '',
+        parallaxBackgroundHorizontal: 0,
+        parallaxBackgroundVertical: 0,
+        display: 'block',
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            // { src: 'libs/reveal.js/3.8.0/lib/js/classList.js', condition: function () { return !document.body.classList; } },
+            // { src: 'libs/reveal.js/3.8.0/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+            // { src: 'libs/reveal.js/3.8.0/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+            // { src: 'libs/reveal.js/3.8.0/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+            { src: 'libs/reveal.js/3.8.0/plugin/notes/notes.js', async: true },
+            { src: 'libs/reveal.js/3.8.0/plugin/chart/Chart.min.js' },
+            { src: 'libs/reveal.js/3.8.0/plugin/chart/csv2chart.js' },
+            { src: 'libs/reveal.js/3.8.0/plugin/embed-tweet/embed-tweet.js' },
+            { src: 'libs/reveal.js/3.8.0/plugin/math/math.js', async: true },
+            { src: 'libs/highlight.js/9.12.0/highlight.js', async: true },
+            { src: 'libs/reveal.js/3.8.0/plugin/anything/anything.js' },
+            { src: 'libs/reveal.js/3.8.0/plugin/mermaid/mermaid.min.js', async: true, callback: function() {mermaid.initialize({startOnLoad:false})} },	
+
+           
+        { src: 'libs/reveal.js/3.8.0/plugin/search/search.js', async: true },
+           
+
+           
+        { src: 'libs/reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true },
+            
+
+            
+
+            
+        { src: 'libs/reveal.js/3.8.0/plugin/menu/menu.js' },
+            
+
+            
+        { src: 'libs/reveal.js/3.8.0/plugin/title-footer/title-footer.js', async: true, callback: function () { title_footer.initialize(); } },
+            
+
+        {
+            src: 'libs/highlight.js/9.12.0/reveal-code-focus-1.0.0-mod.js',
+            async: true,
+            callback: function () {
+                RevealCodeFocus();
+            }
+        },
+            // { src: 'libs/reveal.js/3.8.0/plugin/reveal-code-focus/highlight.pack.js' },
+            // { src: 'libs/reveal.js/3.8.0/plugin/reveal-code-focus/reveal-code-focus.js', async: true, callback: function() { RevealCodeFocus(); } },
+           // {src: 'libs/reveal.js/3.8.0/plugin/line-numbers/line-numbers.js'}
+        ]
+        ,
+    keyboard: {
+        67: function () { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+        66: function () { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+        46: function () { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+        8: function () { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+        68: function () { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+    },
+    math: {
+       // mathjax: 'libs/reveal.js/3.8.0/plugin/math/MathJax.js',
+             mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+    },
+    chart: {
+        defaults: {
+            global: {
+                title: { fontColor: "#FFF" },
+                legend: {
+                    position: "bottom",
+                        labels: { fontColor: "#FFF" },
+                },
+                tooltips: {
+                    labels: { fontColor: "#FFF" },
+                },
+            },
+            scale: {
+                scaleLabel: { fontColor: "#FFF" },
+                gridLines: { color: "#FFF", zeroLineColor: "#FFF" },
+                ticks: { fontColor: "#FFF" },
+            }
+        },
+        line: { borderColor: ["rgba(20,220,220,.8)", "rgba(220,120,120,.8)", "rgba(20,120,220,.8)"], "borderDash": [[5, 10], [0, 0]] },
+        bar: { backgroundColor: ["rgba(20,220,220,.8)", "rgba(220,120,120,.8)", "rgba(20,120,220,.8)"] },
+        pie: { backgroundColor: [["rgba(0,0,0,.8)", "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"]] },
+        radar: { borderColor: ["rgba(20,220,220,.8)", "rgba(220,120,120,.8)", "rgba(20,120,220,.8)"] },
+    },
+    anything: [ 
+	 {
+	  className: "mermaid"
+	 },
+	 // ...
+	],
+    menu: {
+        // Specifies which side of the presentation the menu will 
+        // be shown. Use 'left' or 'right'.
+        side: 'left',
+
+            // Specifies the width of the menu.
+            // Can be one of the following:
+            // 'normal', 'wide', 'third', 'half', 'full', or
+            // any valid css length value
+            width: 'normal',
+
+                // Add slide numbers to the titles in the slide list.
+                // Use 'true' or format string (same as reveal.js slide numbers)
+                numbers: false,
+
+                    // Specifies which slide elements will be used for generating
+                    // the slide titles in the menu. The default selects the first
+                    // heading element found in the slide, but you can specify any
+                    // valid css selector and the text from the first matching
+                    // element will be used.
+                    // Note: that a section data-menu-title attribute or an element
+                    // with a menu-title class will take precedence over this option
+                    titleSelector: 'h1, h2, h3, h4, h5, h6',
+
+                        // If slides do not have a matching title, attempt to use the
+                        // start of the text content as the title instead
+                        useTextContentForMissingTitles: false,
+
+                            // Hide slides from the menu that do not have a title.
+                            // Set to 'true' to only list slides with titles.
+                            hideMissingTitles: false,
+
+                                // Adds markers to the slide titles to indicate the 
+                                // progress through the presentation. Set to 'false'
+                                // to hide the markers.
+                                markers: true,
+
+                                    // Specify custom panels to be included in the menu, by
+                                    // providing an array of objects with 'title', 'icon'
+                                    // properties, and either a 'src' or 'content' property.
+                                    // custom: false,
+                                    custom: [],
+                                        // Specifies the themes that will be available in the themes
+                                        // menu panel. Set to 'true' to show the themes menu panel
+                                        // with the default themes list. Alternatively, provide an
+                                        // array to specify the themes to make available in the
+                                        // themes menu panel, for example...
+                                        // [
+                                        //     { name: 'Black', theme: 'css/theme/black.css' },
+                                        //     { name: 'White', theme: 'css/theme/white.css' },
+                                        //     { name: 'League', theme: 'css/theme/league.css' }
+                                        // ]
+                                        themes: false,
+
+                                            // Specifies the path to the default theme files. If your
+                                            // presentation uses a different path to the standard reveal
+                                            // layout then you need to provide this option, but only
+                                            // when 'themes' is set to 'true'. If you provide your own 
+                                            // list of themes or 'themes' is set to 'false' the 
+                                            // 'themesPath' option is ignored.
+                                            themesPath: 'css/theme/',
+
+                                                // Specifies if the transitions menu panel will be shown.
+                                                // Set to 'true' to show the transitions menu panel with
+                                                // the default transitions list. Alternatively, provide an
+                                                // array to specify the transitions to make available in
+                                                // the transitions panel, for example...
+                                                // ['None', 'Fade', 'Slide']
+                                                transitions: false,
+
+                                                    // Adds a menu button to the slides to open the menu panel.
+                                                    // Set to 'false' to hide the button.
+                                                    openButton: true,
+
+                                                        // If 'true' allows the slide number in the presentation to
+                                                        // open the menu panel. The reveal.js slideNumber option must 
+                                                        // be displayed for this to take effect
+                                                        openSlideNumber: false,
+
+                                                            // If true allows the user to open and navigate the menu using
+                                                            // the keyboard. Standard keyboard interaction with reveal
+                                                            // will be disabled while the menu is open.
+                                                            keyboard: true,
+
+                                                                // Normally the menu will close on user actions such as
+                                                                // selecting a menu item, or clicking the presentation area.
+                                                                // If 'true', the sticky option will leave the menu open
+                                                                // until it is explicitly closed, that is, using the close
+                                                                // button or pressing the ESC or m key (when the keyboard 
+                                                                // interaction option is enabled).
+                                                                sticky: false,
+
+                                                                    // If 'true' standard menu items will be automatically opened
+                                                                    // when navigating using the keyboard. Note: this only takes 
+                                                                    // effect when both the 'keyboard' and 'sticky' options are enabled.
+                                                                    autoOpen: true,
+
+                                                                        // If 'true' the menu will not be created until it is explicitly
+                                                                        // requested by calling RevealMenu.init(). Note this will delay
+                                                                        // the creation of all menu panels, including custom panels, and
+                                                                        // the menu button.
+                                                                        delayInit: false,
+
+                                                                            // If 'true' the menu will be shown when the menu is initialised.
+                                                                            openOnInit: false,
+
+                                                                                // By default the menu will load it's own font-awesome library
+                                                                                // icons. If your presentation needs to load a different
+                                                                                // font-awesome library the 'loadIcons' option can be set to false
+                                                                                // and the menu will not attempt to load the font-awesome library.
+                                                                                loadIcons: false
+    },
+    chalkboard: {
+        toggleChalkboardButton: { left: "60px", bottom: "30px", top: "auto", right: "auto" },
+        toggleNotesButton: { left: "90px", bottom: "30px", top: "auto", right: "auto" },
+
+    }
+    });
+
+
+
+</script>
+</body>
+
+</html>
