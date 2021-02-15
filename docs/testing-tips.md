@@ -36,17 +36,17 @@ For those that haven't done any testing - what's been stopping you?
 
 --
 
-![Tuscan Hills](docs/img/tuscan_hills.jpg)
+![Tuscan Hills](img/tuscan_hills.jpg)
 ### Tuscan Hills, Italy
 
 --
 
-![Poly Joke Beach](docs/img/polly_joke_beach.jpg)
+![Poly Joke Beach](img/polly_joke_beach.jpg)
 ### Poly Joke Beach, Cornwall
 
 --
 
-<img height="350" data-src="docs/img/pytest_output.png">
+<img height="350" data-src="img/pytest_output.png">
 
 ### A passing test suite
 
@@ -178,7 +178,7 @@ Not necessary to group into classes.
 * Long and descriptive
 * Include function name
 
-![](docs/img/function_naming_example.png)
+![](img/function_naming_example.png)
 
 --
 
@@ -196,10 +196,10 @@ Not necessary to group into classes.
 * Avoid repetition
 
 Bad example
-![](docs/img/parametrised_case_naming_bad.png)
+![](img/parametrised_case_naming_bad.png)
 
 Good example
-![](docs/img/parametrised_case_naming_good.png)
+![](img/parametrised_case_naming_good.png)
 
 
 <aside class="notes">
@@ -536,7 +536,7 @@ class TestMyFunc:
 Mark your test shells as **skip** so that you can see where you have missing tests at a glance.
 
 
-<img height="400" data-src="docs/img/snakes.png">
+<img height="400" data-src="img/snakes.png">
 
 ---
 
@@ -651,39 +651,39 @@ Dave has writtena good guide.
 
 ###### Copy lines - SHIFT + ALT + Up/Down Arrow
 
-![](docs/img/copy_lines.gif)
+![](img/copy_lines.gif)
 
 --
 
 ###### Select every occurrence
 
-<img height="500" data-src="docs/img/select_every_occurrence.gif">
+<img height="500" data-src="img/select_every_occurrence.gif">
 
 --
 
 ###### Replace all within selection
 ###### CTRL + H then ALT + L
 
-<img height="520" data-src="docs/img/replace_all_within_selection.gif">
+<img height="520" data-src="img/replace_all_within_selection.gif">
 
 --
 
 ###### Multiple cursors - ALT + click
 
-<img height="520" data-src="docs/img/multiple_cursors.gif">
+<img height="520" data-src="img/multiple_cursors.gif">
 
 --
 
 ###### Multiple cursors - keyboard edition
 ###### CTRL + ALT + up/down arrow
 
-<img height="520" data-src="docs/img/multiple_cursors_keyboard.gif">
+<img height="520" data-src="img/multiple_cursors_keyboard.gif">
 
 --
 
 ###### Column box selection - ALT + SHIFT + drag mouse
 
-<img height="520" data-src="docs/img/column_box_selection.gif">
+<img height="520" data-src="img/column_box_selection.gif">
 
 ---
 
