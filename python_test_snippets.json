@@ -1,0 +1,234 @@
+{
+	// Place your snippets for python here. Each snippet is defined under a snippet name and has a prefix, body and
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Import from": {
+		"prefix": "from",
+		"body": "from ${1:module} import ${2:func}",
+		"description": "Import object from module"
+	},
+
+	"Quick run main": {
+		"prefix": "ifname",
+		"body": [
+			"if __name__ == \"__main__\":",
+			"\tdf = main($1)",
+			"\tprint(df)",
+			"\t$0"
+		],
+		"description": "Quick run module main function."
+	},
+
+	"Test imports for DataFrames": {
+		"prefix": "pytest_frames",
+		"body": [
+			"${BLOCK_COMMENT_START}A set of unit tests for $1.${BLOCK_COMMENT_END}",
+			"$3# from numpy import nan",
+			"import pandas as pd",
+			"$4# from pandas import Timestamp",
+			"from pandas._testing import assert_frame_equal    $5#, assert_series_equal",
+			"import pytest",
+			"",
+			"from$2",
+			"from tests.conftest import (",
+			"\tcreate_dataframe,",
+			"\t$6# Case,",
+			"\t$7# parametrize_cases,",
+			")",
+			"",
+			"",
+			"$0"
+		],
+		"description": "Standard import block for testing dataframes with pytest."
+	},
+
+	"Test structure": {
+		"prefix": "test",
+		"body": [
+			"def test_${1:name}(${2:args}):",
+			"\t${BLOCK_COMMENT_START}Test $3.${BLOCK_COMMENT_END}",
+			"\t$LINE_COMMENT GIVEN $4",
+			"\t$LINE_COMMENT WHEN $5",
+			"\t$LINE_COMMENT THEN $6",
+			"\t${0:pass}"
+		],
+		"description": "Quck test structure."
+	},
+
+	"Test shell function": {
+		"prefix": "test_shell_func",
+		"body": [
+			"@pytest.mark.skip(reason=\"test shell\")",
+			"def test_${1:name}():",
+			"\t${BLOCK_COMMENT_START}Test for this.${BLOCK_COMMENT_END}",
+			"\tpass",
+			"",
+			"$0"
+		],
+		"description": "An empty test function shell."
+	},
+
+	"Test shell method": {
+		"prefix": "test_shell_method",
+		"body": [
+			"@pytest.mark.skip(reason=\"test shell\")",
+			"def test_${1:name}(self):",
+			"\t${BLOCK_COMMENT_START}Test for this.${BLOCK_COMMENT_END}",
+			"\tpass",
+			"",
+			"$0"
+		],
+		"description": "An empty test method shell."
+	},
+
+	"Test class shell": {
+		"prefix": "test_shell_class",
+		"body": [
+			"class Test${1/(?:^|_)([a-z])/${1:/capitalize}/g}:",
+			"\t${BLOCK_COMMENT_START}Group of tests for $1.${BLOCK_COMMENT_END}",
+			"",
+			"\t@pytest.mark.skip(reason=\"test shell\")",
+			"\tdef test_${1:func_name_in_snake_case}(self):",
+			"\t\t${BLOCK_COMMENT_START}Test for $1.${BLOCK_COMMENT_END}",
+			"\t\tpass",
+			"",
+			"$0"
+		],
+		"description": "An empty test class shell."
+	},
+
+	"Test fixture": {
+		"prefix": "fixture",
+		"body": [
+			"@pytest.fixture",
+			"def ${1:fixture_name}(${2:args}):",
+			"\t${BLOCK_COMMENT_START}Return $3.${BLOCK_COMMENT_END}",
+			"\t${0:pass}"
+		],
+		"description": "Basic fixture."
+	},
+
+	"Simple DataFrame test fixture": {
+		"prefix": "dfixture",
+		"body": [
+			"@pytest.fixture",
+			"def ${1:fixture_name}(${2:args}):",
+			"\t${BLOCK_COMMENT_START}Return $3.${BLOCK_COMMENT_END}",
+			"\treturn create_dataframe([",
+			"\t\t${CLIPBOARD}",
+			"\t])"
+		],
+		"description": "Simple DataFrame test fixture."
+	},
+
+	"Complex DataFrame test fixture": {
+		"prefix": "cdfixture",
+		"body": [
+			"@pytest.fixture",
+			"def ${1:fixture_name}(${2:args}):",
+			"\t${BLOCK_COMMENT_START}Return $3.${BLOCK_COMMENT_END}",
+			"\tdf = create_dataframe([",
+			"\t\t${CLIPBOARD}",
+			"\t])",
+			"\t${5:additional_steps}",
+			"\treturn df"
+		],
+		"description": "Complex DataFrame test fixture."
+	},
+
+	"Test Case": {
+		"prefix": "Case",
+		"body": [
+			"Case(",
+			"\tlabel=\"$1\",",
+			"\t$LINE_COMMENT GIVEN $2",
+			"\t$LINE_COMMENT WHEN $3",
+			"\t$LINE_COMMENT THEN $4",
+			"\t${5:kwargs}",
+			"\texpout=$6,",
+			"),"
+		],
+		"description": "Test case class."
+	},
+
+	"Parametrise cases": {
+		"prefix": "param_cases",
+		"body": [
+			"@parametrize_cases(",
+			"\tCase$1",
+			")",
+			"def test_$2cases(${3:args}):",
+			"\t${BLOCK_COMMENT_START}Test $4.${BLOCK_COMMENT_END}",
+			"\t${0:pass}"
+		],
+		"description": "Parametrise test cases without fixtures."
+	},
+
+	"Parametrise fixtures": {
+		"prefix": "param_fixtures",
+		"body": [
+			"@pytest.fixture(",
+			"\tparams=[",
+			"\t\tCase$1",
+			"\t],",
+			"\tids=lambda x: x.label,",
+			")",
+			"def case_parameters(${2:self, }request):",
+			"\t${BLOCK_COMMENT_START}Return the parameters for each test given by params.${BLOCK_COMMENT_END}",
+			"\treturn get_case_parameters(request)",
+			"",
+			"def test_${3:name}(${2}${4}case_parameters):",
+			"\t${BLOCK_COMMENT_START}${5:test_docstring}.${BLOCK_COMMENT_END}",
+			"\texpected_output = case_parameters.pop('${6:expout_label}')",
+			"\t${7:pass}"
+		],
+		"description": "Parametrise any number of parameters or fixtures using Case."
+	},
+
+	"Slice Case": {
+		"prefix": "Casesl",
+		"body": [
+			"Case(",
+			"\tlabel=$1,",
+			"\t$LINE_COMMENT GIVEN $2",
+			"\t$LINE_COMMENT WHEN $3",
+			"\t$LINE_COMMENT THEN $4",
+			"\t${5:kwargs}",
+			"\texpout=$6,",
+			"),"
+		],
+		"description": "Test case class."
+	},
+
+	"Parametrise DataFrame slices": {
+		"prefix": "param_slices",
+		"body": [
+			"@pytest.fixture(",
+			"\tparams=[",
+			"\t\tCase$1",
+			"\t],",
+			"\tids=lambda x: x.label,",
+			")",
+			"def case_parameters(${2:self, }request):",
+			"\t${BLOCK_COMMENT_START}Return the parameters for each test given by params.${BLOCK_COMMENT_END}",
+			"\treturn get_case_parameters(request)",
+			"",
+			"def test_${3:name}(${2}${4}case_parameters):",
+			"\t${BLOCK_COMMENT_START}${5:test_docstring}.${BLOCK_COMMENT_END}",
+			"\texpected_output = case_parameters.pop('${6:expout_label}')",
+			"\t${7:pass}"
+		],
+		"description": "Parametrise any number of parameters or fixtures using Case."
+	}
+}
+
