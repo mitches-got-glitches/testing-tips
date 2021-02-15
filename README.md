@@ -2,7 +2,6 @@
 
 View [the presentation here](https://mitches-got-glitches.github.io/testing-tips/).
 
-
 ## Parametrisation examples
 
 This repo contains a number of different use cases for parametrising tests as outlined below. For the more complicated ones, they have been committed in several stages so that you're able to view the diffs and make sense of why parametrisation may be beneficial to use in your own tests. Each commit message explains the thinking behind each change. My advice would be to get comfortable with writing normal tests first, before beginning to think about parametrisation.
@@ -32,6 +31,7 @@ A demo on how these work will be added to the presentation in due course.
 
 * [chispa](https://github.com/MrPowers/chispa) - Library for comparing PySpark dataframes
 * [faker](https://faker.readthedocs.io/en/master/index.html) - Library for generating fake data
+* [CSV to Python tuple text helper script](csv_to_text.py) - To convert CSV data to text data for easy copy-past hardcoding: adapt to your needs.
 
 For ONS:
 
