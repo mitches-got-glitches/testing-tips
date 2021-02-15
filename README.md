@@ -37,3 +37,7 @@ For ONS:
 
 * [Quality Assurance of Code for Analysis and Research](https://best-practice-and-impact.github.io/qa-of-code-guidance/intro.html) - Best Practice and Impact Team
 * [How To: Use VS Code with DevTest environment](https://collaborate2.ons.gov.uk/confluence/display/EDPDSP3/How+To%3A+Use+VS+Code+with+DevTest+environment) - Internal Confluence
+
+## And for those interested...
+
+I used the [reveal.js framework](https://revealjs.com/) for creating the presentation, customising the style using my own CSS file. I used the [vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension for a number of useful features that made using reveal.js relatively painless. This included, live preview, live server on a local host, VS Code Reveal tab on toolbar for jumping between slides and easy export. I definitely recommend checking this out for your future presentations.
