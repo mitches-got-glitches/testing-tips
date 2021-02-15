@@ -27,3 +27,13 @@ This repo contains a number of different use cases for parametrising tests as ou
 I've included a [JSON file](python_test_snippets.json) that contains many of the Python snippets I've written to help me with testing. Feel free to copy and adjust to your liking. To add snippets in VS Code, press CTRL + SHIFT + P to open the command palette, type "snippet" and select "Configure User Snippets" which will open the JSON of Python snippets for your user profile. Simply copy the snippets you want across.
 
 A demo on how these work will be added to the presentation in due course.
+
+## Other resources
+
+* [chispa](https://github.com/MrPowers/chispa) - Library for comparing PySpark dataframes
+* [faker](https://faker.readthedocs.io/en/master/index.html) - Library for generating fake data
+
+For ONS:
+
+* [Quality Assurance of Code for Analysis and Research](https://best-practice-and-impact.github.io/qa-of-code-guidance/intro.html) - Best Practice and Impact Team
+* [How To: Use VS Code with DevTest environment](https://collaborate2.ons.gov.uk/confluence/display/EDPDSP3/How+To%3A+Use+VS+Code+with+DevTest+environment) - Internal Confluence
