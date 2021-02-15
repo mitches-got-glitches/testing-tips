@@ -2,6 +2,7 @@
 theme : "white"
 transition: "slide"
 highlightTheme: "gruvbox-dark"
+logoImg: false
 slideNumber: false
 customTheme: "css/parchment"
 title: "How to write good tests quickly and efficiently"
@@ -35,17 +36,17 @@ For those that haven't done any testing - what's been stopping you?
 
 --
 
-![Tuscan Hills](img/tuscan_hills.jpg)
+![Tuscan Hills](docs/img/tuscan_hills.jpg)
 ### Tuscan Hills, Italy
 
 --
 
-![Poly Joke Beach](img/polly_joke_beach.jpg)
+![Poly Joke Beach](docs/img/polly_joke_beach.jpg)
 ### Poly Joke Beach, Cornwall
 
 --
 
-<img height="350" data-src="img/pytest_output.png">
+<img height="350" data-src="docs/img/pytest_output.png">
 
 ### A passing test suite
 
@@ -150,7 +151,7 @@ I just wanted to finish up this part with this quote. And to reiterate, treat yo
 
 ---
 
-# Structure
+### Structure
 
 * Your tests should live in a directory at the top level of the project
 * Tests are grouped into modules in the test directory
@@ -162,7 +163,7 @@ Not necessary to group into classes.
 
 ---
 
-# Naming
+### Naming
 
 * Test modules should start with *test_*
 * So should your test functions
@@ -177,7 +178,7 @@ Not necessary to group into classes.
 * Long and descriptive
 * Include function name
 
-![](/img/function_naming_example.png)
+![](docs/img/function_naming_example.png)
 
 --
 
@@ -186,7 +187,7 @@ Not necessary to group into classes.
 * No need to repeat the function name in the test functions
 * Comes through from the class name
 
-![](/img/class_name_examples.png)
+![](img/class_name_examples.png)
 
 --
 
@@ -195,10 +196,10 @@ Not necessary to group into classes.
 * Avoid repetition
 
 Bad example
-![](/img/parametrised_case_naming_bad.png)
+![](docs/img/parametrised_case_naming_bad.png)
 
 Good example
-![](/img/parametrised_case_naming_good.png)
+![](docs/img/parametrised_case_naming_good.png)
 
 
 <aside class="notes">
@@ -534,7 +535,8 @@ class TestMyFunc:
 
 Mark your test shells as **skip** so that you can see where you have missing tests at a glance.
 
-<img height="400" data-src="img/snakes.png">
+
+<img height="400" data-src="docs/img/snakes.png">
 
 ---
 
@@ -649,39 +651,39 @@ Dave has writtena good guide.
 
 ###### Copy lines - SHIFT + ALT + Up/Down Arrow
 
-![](img/copy_lines.gif)
+![](docs/img/copy_lines.gif)
 
 --
 
 ###### Select every occurrence
 
-<!-- <img height="500" data-src="img/select_every_occurrence.gif"> -->
+<img height="500" data-src="docs/img/select_every_occurrence.gif">
 
 --
 
 ###### Replace all within selection
 ###### CTRL + H then ALT + L
 
-<img height="520" data-src="img/replace_all_within_selection.gif">
+<img height="520" data-src="docs/img/replace_all_within_selection.gif">
 
 --
 
 ###### Multiple cursors - ALT + click
 
-<img height="520" data-src="img/multiple_cursors.gif">
+<img height="520" data-src="docs/img/multiple_cursors.gif">
 
 --
 
 ###### Multiple cursors - keyboard edition
 ###### CTRL + ALT + up/down arrow
 
-<img height="520" data-src="img/multiple_cursors_keyboard.gif">
+<img height="520" data-src="docs/img/multiple_cursors_keyboard.gif">
 
 --
 
 ###### Column box selection - ALT + SHIFT + drag mouse
 
-<img height="520" data-src="img/column_box_selection.gif">
+<img height="520" data-src="docs/img/column_box_selection.gif">
 
 ---
 
