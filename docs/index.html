@@ -265,10 +265,6 @@
 
 <body>
   
-<div id="logo" style="position: fixed; top: 20px; left: 20px; z-index: 1">
-    <img src="logo.png" />
-</div>
-
 
   <div class="reveal">
 
@@ -313,19 +309,19 @@ Who here:
             </section>
         
             <section >
-                <p><img src="img/tuscan_hills.jpg" alt="Tuscan Hills"></p>
+                <p><img src="docs/img/tuscan_hills.jpg" alt="Tuscan Hills"></p>
 <h3><a id="user-content-tuscan-hills-italy" class="anchor" href="#tuscan-hills-italy" aria-hidden="true"></a>Tuscan Hills, Italy</h3>
 
             </section>
         
             <section >
-                <p><img src="img/polly_joke_beach.jpg" alt="Poly Joke Beach"></p>
+                <p><img src="docs/img/polly_joke_beach.jpg" alt="Poly Joke Beach"></p>
 <h3><a id="user-content-poly-joke-beach-cornwall" class="anchor" href="#poly-joke-beach-cornwall" aria-hidden="true"></a>Poly Joke Beach, Cornwall</h3>
 
             </section>
         
             <section >
-                <img height="350" data-src="img/pytest_output.png">
+                <img height="350" data-src="docs/img/pytest_output.png">
 <h3><a id="user-content-a-passing-test-suite" class="anchor" href="#a-passing-test-suite" aria-hidden="true"></a>A passing test suite</h3>
 
             </section>
@@ -469,7 +465,7 @@ I just wanted to finish up this part with this quote. And to reiterate, treat yo
     
         <section >
             
-            <h1><a id="user-content-structure" class="anchor" href="#structure" aria-hidden="true"></a>Structure</h1>
+            <h3><a id="user-content-structure" class="anchor" href="#structure" aria-hidden="true"></a>Structure</h3>
 <ul>
 <li>Your tests should live in a directory at the top level of the project</li>
 <li>Tests are grouped into modules in the test directory</li>
@@ -487,7 +483,7 @@ Not necessary to group into classes.</aside>
     
     <section>
         <section >
-            <h1><a id="user-content-naming" class="anchor" href="#naming" aria-hidden="true"></a>Naming</h1>
+            <h3><a id="user-content-naming" class="anchor" href="#naming" aria-hidden="true"></a>Naming</h3>
 <ul>
 <li>Test modules should start with <em>test_</em></li>
 <li>So should your test functions</li>
@@ -504,7 +500,7 @@ Not necessary to group into classes.</aside>
 <li>Long and descriptive</li>
 <li>Include function name</li>
 </ul>
-<p><img src="/img/function_naming_example.png" alt=""></p>
+<p><img src="docs/img/function_naming_example.png" alt=""></p>
 
             </section>
         
@@ -514,7 +510,7 @@ Not necessary to group into classes.</aside>
 <li>No need to repeat the function name in the test functions</li>
 <li>Comes through from the class name</li>
 </ul>
-<p><img src="/img/class_name_examples.png" alt=""></p>
+<p><img src="img/class_name_examples.png" alt=""></p>
 
             </section>
         
@@ -524,9 +520,9 @@ Not necessary to group into classes.</aside>
 <li>Avoid repetition</li>
 </ul>
 <p>Bad example
-<img src="/img/parametrised_case_naming_bad.png" alt=""></p>
+<img src="docs/img/parametrised_case_naming_bad.png" alt=""></p>
 <p>Good example
-<img src="/img/parametrised_case_naming_good.png" alt=""></p>
+<img src="docs/img/parametrised_case_naming_good.png" alt=""></p>
 <aside class="notes">
 I'll come onto test parametrisation a bit later, but put simply, it's just running the same test a number of times with a different set of parameters - which might be your inputs and outputs.
 </aside>
@@ -917,7 +913,7 @@ Rules are meant to be broken right?
             
             <h3><a id="user-content-snakes-in-the-grass-" class="anchor" href="#snakes-in-the-grass-" aria-hidden="true"></a>Snakes in the grass 🐍</h3>
 <p>Mark your test shells as <strong>skip</strong> so that you can see where you have missing tests at a glance.</p>
-<img height="400" data-src="img/snakes.png">
+<img height="400" data-src="docs/img/snakes.png">
 
             </section>
     
@@ -938,7 +934,7 @@ Rules are meant to be broken right?
   'digits,expected',
   [(3, 5.786) (1, 5.8), (0, 6), (8, 5.78646523)]
 )
-def test_round(digits):
+def test_round(digits, expected):
     assert round(5.78646523, digits) == expected
 </code></pre>
 <h6><a id="user-content-using-built-in-pytestmarkparametrize" class="anchor" href="#using-built-in-pytestmarkparametrize" aria-hidden="true"></a>Using built in pytest.mark.parametrize</h6>
@@ -1050,39 +1046,39 @@ Dave has writtena good guide.</aside>
         
             <section >
                 <h6><a id="user-content-copy-lines---shift--alt--updown-arrow" class="anchor" href="#copy-lines---shift--alt--updown-arrow" aria-hidden="true"></a>Copy lines - SHIFT + ALT + Up/Down Arrow</h6>
-<p><img src="img/copy_lines.gif" alt=""></p>
+<p><img src="docs/img/copy_lines.gif" alt=""></p>
 
             </section>
         
             <section >
                 <h6><a id="user-content-select-every-occurrence" class="anchor" href="#select-every-occurrence" aria-hidden="true"></a>Select every occurrence</h6>
-<img height="500" data-src="img/select_every_occurrence.gif">
+<img height="500" data-src="docs/img/select_every_occurrence.gif">
 
             </section>
         
             <section >
                 <h6><a id="user-content-replace-all-within-selection" class="anchor" href="#replace-all-within-selection" aria-hidden="true"></a>Replace all within selection</h6>
 <h6><a id="user-content-ctrl--h-then-alt--l" class="anchor" href="#ctrl--h-then-alt--l" aria-hidden="true"></a>CTRL + H then ALT + L</h6>
-<img height="520" data-src="img/replace_all_within_selection.gif">
+<img height="520" data-src="docs/img/replace_all_within_selection.gif">
 
             </section>
         
             <section >
                 <h6><a id="user-content-multiple-cursors---alt--click" class="anchor" href="#multiple-cursors---alt--click" aria-hidden="true"></a>Multiple cursors - ALT + click</h6>
-<img height="520" data-src="img/multiple_cursors.gif">
+<img height="520" data-src="docs/img/multiple_cursors.gif">
 
             </section>
         
             <section >
                 <h6><a id="user-content-multiple-cursors---keyboard-edition" class="anchor" href="#multiple-cursors---keyboard-edition" aria-hidden="true"></a>Multiple cursors - keyboard edition</h6>
 <h6><a id="user-content-ctrl--alt--updown-arrow" class="anchor" href="#ctrl--alt--updown-arrow" aria-hidden="true"></a>CTRL + ALT + up/down arrow</h6>
-<img height="520" data-src="img/multiple_cursors_keyboard.gif">
+<img height="520" data-src="docs/img/multiple_cursors_keyboard.gif">
 
             </section>
         
             <section >
                 <h6><a id="user-content-column-box-selection---alt--shift--drag-mouse" class="anchor" href="#column-box-selection---alt--shift--drag-mouse" aria-hidden="true"></a>Column box selection - ALT + SHIFT + drag mouse</h6>
-<img height="520" data-src="img/column_box_selection.gif">
+<img height="520" data-src="docs/img/column_box_selection.gif">
 
             </section>
         
@@ -1191,6 +1187,8 @@ If you're interested in what I used to create this presentation, it's reveal.js 
         { src: 'libs/reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true },
             
 
+            
+        { src: 'libs/reveal.js/3.8.0/plugin/chalkboard/chalkboard.js' },
             
 
             
