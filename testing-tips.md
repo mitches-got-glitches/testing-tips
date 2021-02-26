@@ -7,7 +7,6 @@ slideNumber: false
 customTheme: "css/parchment"
 title: "How to write good tests quickly and efficiently"
 ---
-
 ### How to write good tests quickly and efficiently
 
 ##### Mitch Edmunds
@@ -38,6 +37,10 @@ For those that haven't done any testing - what's been stopping you?
 
 ![Tuscan Hills](img/tuscan_hills.jpg)
 ### Tuscan Hills, Italy
+
+note:
+Beautiful lush green hills
+Recent bike packing trip
 
 --
 
@@ -179,7 +182,6 @@ Not necessary to group into classes.
 * Include function name
 
 ![](img/function_naming_example.png)
-
 --
 
 #### Class and function naming
@@ -193,7 +195,7 @@ Not necessary to group into classes.
 
 #### Parametrised test naming
 
-* Avoid repetition
+###### Avoid repetition
 
 Bad example
 ![](img/parametrised_case_naming_bad.png)
@@ -213,7 +215,7 @@ I'll come onto test parametrisation a bit later, but put simply, it's just runni
 * The main component of any test is the `assert` statement
   * Tests whether some condition is True or False
 <!-- * The output of `assert` provides a comprehensive diff if objects are equal. -->
-* `pytest` uses the built-in `assert` for universal testing of native Python objects.
+* `pytest` uses the built-in `assert` for universal testing of native Python objects
 * External libraries may provide their own assert functions e.g.
   * `assert_frame_equal` in `pandas`
   * `assert_approx_df_equality` in `chispa` (for Spark)
@@ -250,10 +252,10 @@ def test_to_snake_case():
 
 ### How do you know what to test? (1)
 
-* Positive testing
-* Edge cases
-* Coverage
-* Negative testing
+###### Positive testing
+###### Edge cases
+###### Coverage
+###### Negative testing
 
 --
 
@@ -292,7 +294,7 @@ One last thing on edge cases, if you are passing a pandas dataframe in as an inp
 --
 
 ### Coverage
-###### Test for all relevant combinations of parameters.
+###### Test for all relevant combinations of parameters
 
 <aside class="notes">
 Coverage:
@@ -304,7 +306,7 @@ Is the parameter a switch? Then test when it is on and test when it is off.
 --
 
 ### Negative testing
-###### Put yourself in the users' shoes.
+###### Put yourself in the users' shoes
 
 <aside class="notes">
 - How might they break things?
@@ -455,7 +457,7 @@ def spark_session():
 
 ### Fixture functions
 
-Define using a closure or inner function.
+* Define using a closure or inner function
 
 ```python
 @pytest.fixture
@@ -466,7 +468,7 @@ def to_spark(spark_session):
     return _
 ```
 
-Use `input_df_pandas` from before.
+* Use `input_df_pandas` from before
 
 ```python
 @pytest.fixture
@@ -501,9 +503,9 @@ Consider writing a component test to cover the main expected behaviour of your p
 
 ### Rules that you can break
 
-* Max line length
-* Docstring conventions
-* Not being DRY
+###### Max line length
+###### Docstring conventions
+###### Not being DRY
 
 <aside class="notes">
 Rules are meant to be broken right?
@@ -517,7 +519,7 @@ Don't worry about writing DRY code in test scripts, at least when starting out.
 
 ### Test shells 🐚
 
-Write a test shell so you know to come back to it.
+###### Write a test shell so you know to come back to it
 
 ```python
 class TestMyFunc:
@@ -541,7 +543,7 @@ Mark your test shells as **skip** so that you can see where you have missing tes
 ---
 
 ### Parametrising Tests
-###### Running the same test for multiple sets of inputs and outputs.
+###### Running the same test for multiple sets of inputs and outputs
 
 --
 
@@ -564,10 +566,10 @@ def test_round(digits, expected):
 
 ### More complicated cases
 
-* Named test cases
-* Parametrising fixtures
-* Mixing fixtures with other types
-* Variable number of parameters
+###### Named test cases
+###### Parametrising fixtures
+###### Mixing fixtures with other types
+###### Variable number of parameters
 
 Check out [mitches-got-glitches/testing-tips](https://github.com/mitches-got-glitches/testing-tips) for more info and examples.
 
@@ -576,71 +578,143 @@ Check out [mitches-got-glitches/testing-tips](https://github.com/mitches-got-gli
 ##### Example
 
 ```python
-@pytest.fixture(
-    params=[
-        Case(
-            label="carli_fixed_base",
-            index_method='carli',
-            base_price_method='fixed_base',
-            expout='large_output_carli_fixed_base.csv',
-        ),
-        Case(
-            label="dutot_fixed_base",
-            index_method='dutot',
-            base_price_method='fixed_base',
-            expout='large_output_dutot_fixed_base.csv',
-        ),
-        Case(
-            label="jevons_fixed_base",
-            index_method='jevons',
-            base_price_method='fixed_base',
-            expout='large_output_jevons_fixed_base.csv',
-        ),
-        Case(
-            label="laspeyres_fixed_base",
-            index_method='laspeyres',
-            base_price_method='fixed_base',
-            expout='large_output_laspeyres_fixed_base.csv',
-        ),
-    ],
-    ids=lambda x: x.label,
+@parametrize_cases(
+    Case(
+        label="carli_fixed_base",
+        index_method='carli',
+        base_price_method='fixed_base',
+        expout='large_output_carli_fixed_base.csv',
+    ),
+    Case(
+        label="dutot_fixed_base",
+        index_method='dutot',
+        base_price_method='fixed_base',
+        expout='large_output_dutot_fixed_base.csv',
+    ),
+    Case(
+        label="jevons_fixed_base",
+        index_method='jevons',
+        base_price_method='fixed_base',
+        expout='large_output_jevons_fixed_base.csv',
+    ),
+    Case(
+        label="laspeyres_fixed_base",
+        index_method='laspeyres',
+        base_price_method='fixed_base',
+        expout='large_output_laspeyres_fixed_base.csv',
+    ),
+    Case(
+        label="paasche_fixed_base",
+        index_method='paasche',
+        base_price_method='fixed_base',
+        expout='large_output_paasche_fixed_base.csv',
+    ),
+    Case(
+        label="fisher_fixed_base",
+        index_method='fisher',
+        base_price_method='fixed_base',
+        expout='large_output_fisher_fixed_base.csv',
+    ),
+    Case(
+        label="tornqvist_fixed_base",
+        index_method='tornqvist',
+        base_price_method='fixed_base',
+        expout='large_output_tornqvist_fixed_base.csv',
+    ),
+    Case(
+        label="carli_chained",
+        index_method='carli',
+        base_price_method='chained',
+        expout='large_output_carli_chained.csv',
+    ),
+    Case(
+        label="dutot_chained",
+        index_method='dutot',
+        base_price_method='chained',
+        expout='large_output_dutot_chained.csv',
+    ),
+    Case(
+        label="jevons_chained",
+        index_method='jevons',
+        base_price_method='chained',
+        expout='large_output_jevons_chained.csv',
+    ),
+    Case(
+        label="jevons_bilateral",
+        index_method='jevons',
+        base_price_method='bilateral',
+        expout='large_output_jevons_bilateral.csv',
+    ),
+    Case(
+        label="laspeyres_bilateral",
+        index_method='laspeyres',
+        base_price_method='bilateral',
+        expout='large_output_laspeyres_bilateral.csv',
+    ),
+    Case(
+        label="paasche_bilateral",
+        index_method='paasche',
+        base_price_method='bilateral',
+        expout='large_output_paasche_bilateral.csv',
+    ),
+    Case(
+        label="fisher_bilateral",
+        index_method='fisher',
+        base_price_method='bilateral',
+        expout='large_output_fisher_bilateral.csv',
+    ),
+    Case(
+        label="tornqvist_bilateral",
+        index_method='tornqvist',
+        base_price_method='bilateral',
+        expout='large_output_tornqvist_bilateral.csv',
+    ),
+    Case(
+        label="jevons_fixed_base_with_rebase",
+        index_method='jevons',
+        base_price_method='fixed_base_with_rebase',
+        expout='large_output_jevons_rebased_unchained.csv',
+    ),
+    Case(
+        label="tornqvist_fixed_base_with_rebase",
+        index_method='tornqvist',
+        base_price_method='fixed_base_with_rebase',
+        expout='large_output_tornqvist_rebased_unchained.csv',
+    ),
 )
-def case_parameters(request):
-    """Return the parameters for each test given by params."""
-    return get_case_parameters(request)
-
-
-def test_index_calculator_scenarios(
-    index_method_input_data_large,
-    case_parameters,
+def test_index_scenarios(
+    input_data_large,
+    index_method,
+    base_price_method,
+    expout,
     filename_to_pandas,
 ):
-    """Test for this."""
-    expected_output = filename_to_pandas(case_parameters.pop('expout'))
+    """Test for all different combinations of index method."""
+    expected_output = filename_to_pandas(expout)
 
     actual_output = calculate_index(
-        index_method_input_data_large,
+        input_data_large,
         date_col='month',
         levels=['group', 'id'],
-        **case_parameters,
+        base_price_method=base_price_method,
+        index_method=index_method,
     )
 
     assert_frame_equal(actual_output.reset_index(), expected_output)
-
 ```
 
 ---
 
 # Final tips and tricks
 
-* Use the CSV to Python tuple converter file.
-* Use VS Code snippets.
-* Use VS code keyboard shortcuts.
+* Use the CSV to Python tuple converter file
+* Use VS Code snippets
+* Use VS code keyboard shortcuts
 * Use VS code!!
 
 note:
 You have to be on DevTest.
-Dave has writtena good guide.
+Dave has written a good guide.
 
 ---
 

@@ -13,11 +13,11 @@ hyperlink: #7A1F17 */
 .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
     color: #2c2301;
     font-family: 'Montserrat', sans-serif;
-
 }
 
 .reveal h1 {
     font-size: 1.75em;
+    margin-bottom: 30px;
 }
 
 .reveal h5, .reveal h6 {
@@ -38,34 +38,25 @@ hyperlink: #7A1F17 */
     margin: auto;
 }
 
-.reveal ul {
-    text-align: left;
-}
-
-/* .reveal ul {
-    text-align: left;
-    line-height: 120%;
-} */
-
-/* .reveal li {
-    text-align: left;
-}
-
-li {
-    text-align: left;
-} */
-
-
 .reveal p {
     margin-left: 5px;
     text-align: left;
 }
 
-/* ul {
-    color: #A32A1F;
-    list-style-type: square;
-    text-align: left;
-    margin: 0px;
-    padding: 0px;
-    font-size: 1em;
-} */
+.reveal ul, .reveal dl, .reveal ol {
+    display: block;
+    font-size: 0.95em;
+}
+
+.reveal li {
+    margin: 5px 30px 0 0;
+}
+
+code {
+  color: #A32A1F;
+  font-weight: bold;
+}
+
+.reveal a {
+  color: #7A1F17
+}
