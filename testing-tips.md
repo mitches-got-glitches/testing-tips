@@ -47,6 +47,10 @@ Recent bike packing trip
 ![Poly Joke Beach](img/polly_joke_beach.jpg)
 ### Poly Joke Beach, Cornwall
 
+note:
+Near Crantock
+3 day walking trip on the South West Coastal Path
+
 --
 
 <img height="350" data-src="img/pytest_output.png">
@@ -63,10 +67,11 @@ Recent bike packing trip
 <aside class="notes">
 You should be spending as much time testing, if not more, as you do programming.
 
-Some of your initial reactions to that might be - well I just don't have time for that.
-I know that because that's what I used to think when first confronted with the beast that is testing.
+Some of your initial reactions to that might be - well I just don't have time for that. I know that because that's what I used to think when first confronted with the beast that is testing.
 
-But now through first hand experience, I've come to understand how important testing is. My life is so much easier down the line if I take the time to put some good tests in place. Now, I always make time for testing, and you should to. Testing is important and you should be making that clear to the business area that you're working for. Make it clear to them that if time is not made for testing, then you are potentially compromising the quality of the statistics. Not only that, but you're going to get a whole heap of problems down the line if the requirements happen to change. Set their expectations and set them as early as possible. Then voila, you should then have time for testing.
+But now through first hand experience, I've come to understand how important testing is. My life is so much easier down the line if I take the time to put some good tests in place. Now, I always make time for testing, and you should to.
+
+Testing is important and you should be making that clear to the business area that you're working for. Make it clear to them that if time is not made for testing, then you are potentially compromising the quality of the statistics. Not only that, but you're going to get a whole heap of problems down the line if the requirements happen to change. Set their expectations and set them as early as possible. Then voila, you should then have time for testing.
 
 If you are tempted to just carry on - you've built your feature, you've done some exploratory testing, you can see that it seems to be working for your inputs - let me just make it clear once again that time saved by not doing testing is a False Economy. You will spend much more time dealing with bugs in the future than you spent writing the tests. And if not you, then someone else will have to clear up your mess.
 
@@ -129,11 +134,13 @@ Testing and programming should be a constant cycle. If you had to write a book o
 &mdash; [PEP 20, The Zen of Python](https://www.python.org/dev/peps/pep-0020/)
 
 <aside class="notes">
-A good test script should be a joy to look at. It should take the reader through how a function or class is supposed to be used, and how it's not supposed to be used. It should show you what's going in, and what's coming out. The reader should have a clear cut example of the use of the function without the need to actually run it.
+A good test script should be a joy to look at.
 
-I've highlighted there one line from the Zen of Python, "Readability Counts". It's as much true for test scripts as it is for your source files. If you thought you could simply write a passing test and that would be the end of it, well you have got another thing coming - let me tell you.
+It should take the reader through a clear cut example of how a function or class is supposed to be used, and often, how it's not supposed to be used, without having the need to run it themselves. For me, I want to see what's going in, what's being executed, and what's coming out. Anything else is a distraction. If you have complex setup procedures, abstract as much as you can out of the test script so that you're left only with the bare essentials for understanding what your functions are doing.
 
-For me, I want to see what's going in, what's being executed, and what's coming out. Anything else is a waste of space. And I'd want to be abstracting as much of that out of the test script as possible so that what I'm left with is all I need to get a clear understanding of what that function is supposed to be doing.
+I've highlighted there one line from the Zen of Python, "Readability Counts". I think it's as true for test scripts as it is for your source files.
+
+While of course utility is the most important attribute of your test suite, (your tests should be well designed, have good coverage and should pass as a minimum), taking some care to layout your tests in a way that is easy to read and understand will elevate your test scripts into a key part of your program's documentation.
 
 Additionally, I want to see any data inputs or outputs in a way that is easy for my human brain to comprehend, preferably without scrolling - I'll come onto a few tips later on to help with this.
 </aside>
@@ -145,7 +152,7 @@ Additionally, I want to see any data inputs or outputs in a way that is easy for
 &mdash; Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship
 
 <aside class="notes">
-I just wanted to finish up this part with this quote. And to reiterate, treat your tests as a living piece of documentation for your code - because they are. And unlike comments or other forms of documentation, your tests can never really be out-of-date - as long as you are using some form of continuous integration to make sure your whole test suite passes.
+I just wanted to finish up this part with a quote - you spend much more time reading old code as you do writing new code. And to reiterate, you should treat your tests as a living piece of documentation for your code - because that's what they are. Write them with the expectation that they'll be read months and years down the line - because they probably will be. Think about the structure. Think about keeping your test data as close as possible to your test. Think about all the things that will make things easier for the reader to see what is going on.
 </aside>
 
 ---
@@ -710,6 +717,7 @@ def test_index_scenarios(
 * Use the CSV to Python tuple converter file
 * Use VS Code snippets
 * Use VS code keyboard shortcuts
+* Bash bindings
 * Use VS code!!
 
 note:
@@ -758,6 +766,39 @@ Dave has written a good guide.
 ###### Column box selection - ALT + SHIFT + drag mouse
 
 <img height="520" data-src="img/column_box_selection.gif">
+
+---
+
+### VS Code
+##### Snippets
+
+--
+
+###### Test shell
+
+<img data-src="img/test_shell_snippet.gif">
+
+--
+
+###### Parametrising fixtures
+
+<img data-src="img/param_fixtures_snippet.gif">
+
+
+---
+
+### Bash bindings
+
+Add these to your `.bashrc`
+
+```bash
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind '"\eOA": history-search-backward'
+bind '"\eOB": history-search-forward'
+```
+
+<img data-src="img/bash_bindings.gif">
 
 ---
 
