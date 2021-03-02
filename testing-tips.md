@@ -200,7 +200,7 @@ Not necessary to group into classes.
 
 --
 
-#### Parametrised test naming
+#### Parameterised test naming
 
 ###### Avoid repetition
 
