@@ -311,12 +311,18 @@ Who here:
             <section >
                 <p><img src="img/tuscan_hills.jpg" alt="Tuscan Hills"></p>
 <h3><a id="user-content-tuscan-hills-italy" class="anchor" href="#tuscan-hills-italy" aria-hidden="true"></a>Tuscan Hills, Italy</h3>
+<aside class="notes">
+Beautiful lush green hills
+Recent bike packing trip</aside>
 
             </section>
         
             <section >
                 <p><img src="img/polly_joke_beach.jpg" alt="Poly Joke Beach"></p>
 <h3><a id="user-content-poly-joke-beach-cornwall" class="anchor" href="#poly-joke-beach-cornwall" aria-hidden="true"></a>Poly Joke Beach, Cornwall</h3>
+<aside class="notes">
+Near Crantock
+3 day walking trip on the South West Coastal Path</aside>
 
             </section>
         
@@ -340,9 +346,9 @@ Who here:
 <!-- <div class="tenor-gif-embed" data-postid="10243842" data-share-method="host" data-width="50%" data-aspect-ratio="1.0"><a href="https://tenor.com/view/nobody-got-time-for-that-gif-10243842">Nobody Got Time For That AIntnobody Got Time For That GIF</a> from <a href="https://tenor.com/search/nobodygottimeforthat-gifs">Nobodygottimeforthat GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script> -->
 <aside class="notes">
 You should be spending as much time testing, if not more, as you do programming.
-<p>Some of your initial reactions to that might be - well I just don’t have time for that.
-I know that because that’s what I used to think when first confronted with the beast that is testing.</p>
-<p>But now through first hand experience, I’ve come to understand how important testing is. My life is so much easier down the line if I take the time to put some good tests in place. Now, I always make time for testing, and you should to. Testing is important and you should be making that clear to the business area that you’re working for. Make it clear to them that if time is not made for testing, then you are potentially compromising the quality of the statistics. Not only that, but you’re going to get a whole heap of problems down the line if the requirements happen to change. Set their expectations and set them as early as possible. Then voila, you should then have time for testing.</p>
+<p>Some of your initial reactions to that might be - well I just don’t have time for that. I know that because that’s what I used to think when first confronted with the beast that is testing.</p>
+<p>But now through first hand experience, I’ve come to understand how important testing is. My life is so much easier down the line if I take the time to put some good tests in place. Now, I always make time for testing, and you should to.</p>
+<p>Testing is important and you should be making that clear to the business area that you’re working for. Make it clear to them that if time is not made for testing, then you are potentially compromising the quality of the statistics. Not only that, but you’re going to get a whole heap of problems down the line if the requirements happen to change. Set their expectations and set them as early as possible. Then voila, you should then have time for testing.</p>
 <p>If you are tempted to just carry on - you’ve built your feature, you’ve done some exploratory testing, you can see that it seems to be working for your inputs - let me just make it clear once again that time saved by not doing testing is a False Economy. You will spend much more time dealing with bugs in the future than you spent writing the tests. And if not you, then someone else will have to clear up your mess.</p>
 </aside>
 
@@ -427,9 +433,10 @@ There's no doubt about it - my programming has massively improved since I starte
 </blockquote>
 <p>— <a href="https://www.python.org/dev/peps/pep-0020/">PEP 20, The Zen of Python</a></p>
 <aside class="notes">
-A good test script should be a joy to look at. It should take the reader through how a function or class is supposed to be used, and how it's not supposed to be used. It should show you what's going in, and what's coming out. The reader should have a clear cut example of the use of the function without the need to actually run it.
-<p>I’ve highlighted there one line from the Zen of Python, “Readability Counts”. It’s as much true for test scripts as it is for your source files. If you thought you could simply write a passing test and that would be the end of it, well you have got another thing coming - let me tell you.</p>
-<p>For me, I want to see what’s going in, what’s being executed, and what’s coming out. Anything else is a waste of space. And I’d want to be abstracting as much of that out of the test script as possible so that what I’m left with is all I need to get a clear understanding of what that function is supposed to be doing.</p>
+A good test script should be a joy to look at.
+<p>It should take the reader through a clear cut example of how a function or class is supposed to be used, and often, how it’s not supposed to be used, without having the need to run it themselves. For me, I want to see what’s going in, what’s being executed, and what’s coming out. Anything else is a distraction. If you have complex setup procedures, abstract as much as you can out of the test script so that you’re left only with the bare essentials for understanding what your functions are doing.</p>
+<p>I’ve highlighted there one line from the Zen of Python, “Readability Counts”. I think it’s as true for test scripts as it is for your source files.</p>
+<p>While of course utility is the most important attribute of your test suite, (your tests should be well designed, have good coverage and should pass as a minimum), taking some care to layout your tests in a way that is easy to read and understand will elevate your test scripts into a key part of your program’s documentation.</p>
 <p>Additionally, I want to see any data inputs or outputs in a way that is easy for my human brain to comprehend, preferably without scrolling - I’ll come onto a few tips later on to help with this.</p>
 </aside>
 
@@ -441,7 +448,7 @@ A good test script should be a joy to look at. It should take the reader through
 </blockquote>
 <p>— Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship</p>
 <aside class="notes">
-I just wanted to finish up this part with this quote. And to reiterate, treat your tests as a living piece of documentation for your code - because they are. And unlike comments or other forms of documentation, your tests can never really be out-of-date - as long as you are using some form of continuous integration to make sure your whole test suite passes.
+I just wanted to finish up this part with a quote - you spend much more time reading old code as you do writing new code. And to reiterate, you should treat your tests as a living piece of documentation for your code - because that's what they are. Write them with the expectation that they'll be read months and years down the line - because they probably will be. Think about the structure. Think about keeping your test data as close as possible to your test. Think about all the things that will make things easier for the reader to see what is going on.
 </aside>
 
             </section>
@@ -515,10 +522,8 @@ Not necessary to group into classes.</aside>
             </section>
         
             <section >
-                <h4><a id="user-content-parametrised-test-naming" class="anchor" href="#parametrised-test-naming" aria-hidden="true"></a>Parametrised test naming</h4>
-<ul>
-<li>Avoid repetition</li>
-</ul>
+                <h4><a id="user-content-parameterised-test-naming" class="anchor" href="#parameterised-test-naming" aria-hidden="true"></a>Parameterised test naming</h4>
+<h6><a id="user-content-avoid-repetition" class="anchor" href="#avoid-repetition" aria-hidden="true"></a>Avoid repetition</h6>
 <p>Bad example
 <img src="img/parametrised_case_naming_bad.png" alt=""></p>
 <p>Good example
@@ -548,7 +553,7 @@ I'll come onto test parametrisation a bit later, but put simply, it's just runni
 </ul>
 <!-- * The output of `assert` provides a comprehensive diff if objects are equal. -->
 <ul>
-<li><code>pytest</code> uses the built-in <code>assert</code> for universal testing of native Python objects.</li>
+<li><code>pytest</code> uses the built-in <code>assert</code> for universal testing of native Python objects</li>
 <li>External libraries may provide their own assert functions e.g.
 <ul>
 <li><code>assert_frame_equal</code> in <code>pandas</code></li>
@@ -591,17 +596,15 @@ def test_to_snake_case():
     <section>
         <section >
             <h3><a id="user-content-how-do-you-know-what-to-test-1" class="anchor" href="#how-do-you-know-what-to-test-1" aria-hidden="true"></a>How do you know what to test? (1)</h3>
-<ul>
-<li>Positive testing</li>
-<li>Edge cases</li>
-<li>Coverage</li>
-<li>Negative testing</li>
-</ul>
+<h6><a id="user-content-positive-testing" class="anchor" href="#positive-testing" aria-hidden="true"></a>Positive testing</h6>
+<h6><a id="user-content-edge-cases" class="anchor" href="#edge-cases" aria-hidden="true"></a>Edge cases</h6>
+<h6><a id="user-content-coverage" class="anchor" href="#coverage" aria-hidden="true"></a>Coverage</h6>
+<h6><a id="user-content-negative-testing" class="anchor" href="#negative-testing" aria-hidden="true"></a>Negative testing</h6>
 
             </section>
         
             <section >
-                <h3><a id="user-content-positive-testing" class="anchor" href="#positive-testing" aria-hidden="true"></a>Positive Testing</h3>
+                <h3><a id="user-content-positive-testing-1" class="anchor" href="#positive-testing-1" aria-hidden="true"></a>Positive Testing</h3>
 <h6><a id="user-content-does-the-function-have-the-expected-output" class="anchor" href="#does-the-function-have-the-expected-output" aria-hidden="true"></a>Does the function have the expected output?</h6>
 <aside class="notes">
 Contrive a simple example and calculate the expected output.
@@ -611,7 +614,7 @@ Contrive a simple example and calculate the expected output.
             </section>
         
             <section >
-                <h3><a id="user-content-edge-cases" class="anchor" href="#edge-cases" aria-hidden="true"></a>Edge Cases</h3>
+                <h3><a id="user-content-edge-cases-1" class="anchor" href="#edge-cases-1" aria-hidden="true"></a>Edge Cases</h3>
 <h6><a id="user-content-an-uncommon-or-odd-occurrence" class="anchor" href="#an-uncommon-or-odd-occurrence" aria-hidden="true"></a>“An uncommon or odd occurrence.”</h6>
 <aside class="notes">
 Firstly, edge cases are about foresight. Have a sit down and think about all the different and strange scenarios that the function will have to handle. When working with a collection of number values this might be: what happens when some of the values are zero or NaN? What happens if all the values are zero or NaN?
@@ -633,8 +636,8 @@ They're also about hindsight: you may come across a bug in your test or producti
             </section>
         
             <section >
-                <h3><a id="user-content-coverage" class="anchor" href="#coverage" aria-hidden="true"></a>Coverage</h3>
-<h6><a id="user-content-test-for-all-relevant-combinations-of-parameters" class="anchor" href="#test-for-all-relevant-combinations-of-parameters" aria-hidden="true"></a>Test for all relevant combinations of parameters.</h6>
+                <h3><a id="user-content-coverage-1" class="anchor" href="#coverage-1" aria-hidden="true"></a>Coverage</h3>
+<h6><a id="user-content-test-for-all-relevant-combinations-of-parameters" class="anchor" href="#test-for-all-relevant-combinations-of-parameters" aria-hidden="true"></a>Test for all relevant combinations of parameters</h6>
 <aside class="notes">
 Coverage:
   If you have control-flow in your function such as an if/else statement, then you need to make sure that you test the code blocks for all available routes. Coverage is basically a % score for how many lines of your code are executed by the tests. Once you're familiar with testing: 100% coverage should be the aim. But it's not the be all and end all. A suite of bad tests can still achieve 100% coverage.
@@ -644,8 +647,8 @@ Coverage:
             </section>
         
             <section >
-                <h3><a id="user-content-negative-testing" class="anchor" href="#negative-testing" aria-hidden="true"></a>Negative testing</h3>
-<h6><a id="user-content-put-yourself-in-the-users-shoes" class="anchor" href="#put-yourself-in-the-users-shoes" aria-hidden="true"></a>Put yourself in the users’ shoes.</h6>
+                <h3><a id="user-content-negative-testing-1" class="anchor" href="#negative-testing-1" aria-hidden="true"></a>Negative testing</h3>
+<h6><a id="user-content-put-yourself-in-the-users-shoes" class="anchor" href="#put-yourself-in-the-users-shoes" aria-hidden="true"></a>Put yourself in the users’ shoes</h6>
 <aside class="notes">
 - How might they break things?
 - What mistakes might be made when using the function?
@@ -822,7 +825,9 @@ def spark_session():
         
             <section >
                 <h3><a id="user-content-fixture-functions" class="anchor" href="#fixture-functions" aria-hidden="true"></a>Fixture functions</h3>
-<p>Define using a closure or inner function.</p>
+<ul>
+<li>Define using a closure or inner function</li>
+</ul>
 <pre><code class="language-python">@pytest.fixture
 def to_spark(spark_session):
     &quot;&quot;&quot;Convert pandas df to spark.&quot;&quot;&quot;
@@ -830,7 +835,9 @@ def to_spark(spark_session):
         return spark_session.createDataFrame(df)
     return _
 </code></pre>
-<p>Use <code>input_df_pandas</code> from before.</p>
+<ul>
+<li>Use <code>input_df_pandas</code> from before</li>
+</ul>
 <pre><code class="language-python">@pytest.fixture
 def input_df(to_spark, input_df_pandas):
     &quot;&quot;&quot;Return simple spark input df for index method tests.&quot;&quot;&quot;
@@ -873,11 +880,9 @@ Remember, a function should do one thing and one thing only!
         <section >
             
             <h3><a id="user-content-rules-that-you-can-break" class="anchor" href="#rules-that-you-can-break" aria-hidden="true"></a>Rules that you can break</h3>
-<ul>
-<li>Max line length</li>
-<li>Docstring conventions</li>
-<li>Not being DRY</li>
-</ul>
+<h6><a id="user-content-max-line-length" class="anchor" href="#max-line-length" aria-hidden="true"></a>Max line length</h6>
+<h6><a id="user-content-docstring-conventions" class="anchor" href="#docstring-conventions" aria-hidden="true"></a>Docstring conventions</h6>
+<h6><a id="user-content-not-being-dry" class="anchor" href="#not-being-dry" aria-hidden="true"></a>Not being DRY</h6>
 <aside class="notes">
 Rules are meant to be broken right?
 <p>Use your judgement.</p>
@@ -893,7 +898,7 @@ Rules are meant to be broken right?
         <section >
             
             <h3><a id="user-content-test-shells-" class="anchor" href="#test-shells-" aria-hidden="true"></a>Test shells 🐚</h3>
-<p>Write a test shell so you know to come back to it.</p>
+<h6><a id="user-content-write-a-test-shell-so-you-know-to-come-back-to-it" class="anchor" href="#write-a-test-shell-so-you-know-to-come-back-to-it" aria-hidden="true"></a>Write a test shell so you know to come back to it</h6>
 <pre><code class="language-python">class TestMyFunc:
     &quot;&quot;&quot;Group of tests for my_func.&quot;&quot;&quot;
 
@@ -924,7 +929,7 @@ Rules are meant to be broken right?
     <section>
         <section >
             <h3><a id="user-content-parametrising-tests" class="anchor" href="#parametrising-tests" aria-hidden="true"></a>Parametrising Tests</h3>
-<h6><a id="user-content-running-the-same-test-for-multiple-sets-of-inputs-and-outputs" class="anchor" href="#running-the-same-test-for-multiple-sets-of-inputs-and-outputs" aria-hidden="true"></a>Running the same test for multiple sets of inputs and outputs.</h6>
+<h6><a id="user-content-running-the-same-test-for-multiple-sets-of-inputs-and-outputs" class="anchor" href="#running-the-same-test-for-multiple-sets-of-inputs-and-outputs" aria-hidden="true"></a>Running the same test for multiple sets of inputs and outputs</h6>
 
             </section>
         
@@ -944,69 +949,139 @@ def test_round(digits, expected):
         
             <section >
                 <h3><a id="user-content-more-complicated-cases" class="anchor" href="#more-complicated-cases" aria-hidden="true"></a>More complicated cases</h3>
-<ul>
-<li>Named test cases</li>
-<li>Parametrising fixtures</li>
-<li>Mixing fixtures with other types</li>
-<li>Variable number of parameters</li>
-</ul>
+<h6><a id="user-content-named-test-cases" class="anchor" href="#named-test-cases" aria-hidden="true"></a>Named test cases</h6>
+<h6><a id="user-content-parametrising-fixtures" class="anchor" href="#parametrising-fixtures" aria-hidden="true"></a>Parametrising fixtures</h6>
+<h6><a id="user-content-mixing-fixtures-with-other-types" class="anchor" href="#mixing-fixtures-with-other-types" aria-hidden="true"></a>Mixing fixtures with other types</h6>
+<h6><a id="user-content-variable-number-of-parameters" class="anchor" href="#variable-number-of-parameters" aria-hidden="true"></a>Variable number of parameters</h6>
 <p>Check out <a href="https://github.com/mitches-got-glitches/testing-tips">mitches-got-glitches/testing-tips</a> for more info and examples.</p>
 
             </section>
         
             <section >
                 <h5><a id="user-content-example" class="anchor" href="#example" aria-hidden="true"></a>Example</h5>
-<pre><code class="language-python">@pytest.fixture(
-    params=[
-        Case(
-            label=&quot;carli_fixed_base&quot;,
-            index_method='carli',
-            base_price_method='fixed_base',
-            expout='large_output_carli_fixed_base.csv',
-        ),
-        Case(
-            label=&quot;dutot_fixed_base&quot;,
-            index_method='dutot',
-            base_price_method='fixed_base',
-            expout='large_output_dutot_fixed_base.csv',
-        ),
-        Case(
-            label=&quot;jevons_fixed_base&quot;,
-            index_method='jevons',
-            base_price_method='fixed_base',
-            expout='large_output_jevons_fixed_base.csv',
-        ),
-        Case(
-            label=&quot;laspeyres_fixed_base&quot;,
-            index_method='laspeyres',
-            base_price_method='fixed_base',
-            expout='large_output_laspeyres_fixed_base.csv',
-        ),
-    ],
-    ids=lambda x: x.label,
+<pre><code class="language-python">@parametrize_cases(
+    Case(
+        label=&quot;carli_fixed_base&quot;,
+        index_method='carli',
+        base_price_method='fixed_base',
+        expout='large_output_carli_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;dutot_fixed_base&quot;,
+        index_method='dutot',
+        base_price_method='fixed_base',
+        expout='large_output_dutot_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;jevons_fixed_base&quot;,
+        index_method='jevons',
+        base_price_method='fixed_base',
+        expout='large_output_jevons_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;laspeyres_fixed_base&quot;,
+        index_method='laspeyres',
+        base_price_method='fixed_base',
+        expout='large_output_laspeyres_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;paasche_fixed_base&quot;,
+        index_method='paasche',
+        base_price_method='fixed_base',
+        expout='large_output_paasche_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;fisher_fixed_base&quot;,
+        index_method='fisher',
+        base_price_method='fixed_base',
+        expout='large_output_fisher_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;tornqvist_fixed_base&quot;,
+        index_method='tornqvist',
+        base_price_method='fixed_base',
+        expout='large_output_tornqvist_fixed_base.csv',
+    ),
+    Case(
+        label=&quot;carli_chained&quot;,
+        index_method='carli',
+        base_price_method='chained',
+        expout='large_output_carli_chained.csv',
+    ),
+    Case(
+        label=&quot;dutot_chained&quot;,
+        index_method='dutot',
+        base_price_method='chained',
+        expout='large_output_dutot_chained.csv',
+    ),
+    Case(
+        label=&quot;jevons_chained&quot;,
+        index_method='jevons',
+        base_price_method='chained',
+        expout='large_output_jevons_chained.csv',
+    ),
+    Case(
+        label=&quot;jevons_bilateral&quot;,
+        index_method='jevons',
+        base_price_method='bilateral',
+        expout='large_output_jevons_bilateral.csv',
+    ),
+    Case(
+        label=&quot;laspeyres_bilateral&quot;,
+        index_method='laspeyres',
+        base_price_method='bilateral',
+        expout='large_output_laspeyres_bilateral.csv',
+    ),
+    Case(
+        label=&quot;paasche_bilateral&quot;,
+        index_method='paasche',
+        base_price_method='bilateral',
+        expout='large_output_paasche_bilateral.csv',
+    ),
+    Case(
+        label=&quot;fisher_bilateral&quot;,
+        index_method='fisher',
+        base_price_method='bilateral',
+        expout='large_output_fisher_bilateral.csv',
+    ),
+    Case(
+        label=&quot;tornqvist_bilateral&quot;,
+        index_method='tornqvist',
+        base_price_method='bilateral',
+        expout='large_output_tornqvist_bilateral.csv',
+    ),
+    Case(
+        label=&quot;jevons_fixed_base_with_rebase&quot;,
+        index_method='jevons',
+        base_price_method='fixed_base_with_rebase',
+        expout='large_output_jevons_rebased_unchained.csv',
+    ),
+    Case(
+        label=&quot;tornqvist_fixed_base_with_rebase&quot;,
+        index_method='tornqvist',
+        base_price_method='fixed_base_with_rebase',
+        expout='large_output_tornqvist_rebased_unchained.csv',
+    ),
 )
-def case_parameters(request):
-    &quot;&quot;&quot;Return the parameters for each test given by params.&quot;&quot;&quot;
-    return get_case_parameters(request)
-
-
-def test_index_calculator_scenarios(
-    index_method_input_data_large,
-    case_parameters,
+def test_index_scenarios(
+    input_data_large,
+    index_method,
+    base_price_method,
+    expout,
     filename_to_pandas,
 ):
-    &quot;&quot;&quot;Test for this.&quot;&quot;&quot;
-    expected_output = filename_to_pandas(case_parameters.pop('expout'))
+    &quot;&quot;&quot;Test for all different combinations of index method.&quot;&quot;&quot;
+    expected_output = filename_to_pandas(expout)
 
     actual_output = calculate_index(
-        index_method_input_data_large,
+        input_data_large,
         date_col='month',
         levels=['group', 'id'],
-        **case_parameters,
+        base_price_method=base_price_method,
+        index_method=index_method,
     )
 
     assert_frame_equal(actual_output.reset_index(), expected_output)
-
 </code></pre>
 
             </section>
@@ -1022,14 +1097,15 @@ def test_index_calculator_scenarios(
             
             <h1><a id="user-content-final-tips-and-tricks" class="anchor" href="#final-tips-and-tricks" aria-hidden="true"></a>Final tips and tricks</h1>
 <ul>
-<li>Use the CSV to Python tuple converter file.</li>
-<li>Use VS Code snippets.</li>
-<li>Use VS code keyboard shortcuts.</li>
+<li>Use the CSV to Python tuple converter file</li>
+<li>Use VS Code snippets</li>
+<li>Use VS code keyboard shortcuts</li>
+<li>Bash bindings</li>
 <li>Use VS code!!</li>
 </ul>
 <aside class="notes">
 You have to be on DevTest.
-Dave has writtena good guide.</aside>
+Dave has written a good guide.</aside>
 
             </section>
     
@@ -1084,6 +1160,49 @@ Dave has writtena good guide.</aside>
         
 
     </section>
+    
+
+
+
+    
+    <section>
+        <section >
+            <h3><a id="user-content-vs-code-1" class="anchor" href="#vs-code-1" aria-hidden="true"></a>VS Code</h3>
+<h5><a id="user-content-snippets" class="anchor" href="#snippets" aria-hidden="true"></a>Snippets</h5>
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-test-shell" class="anchor" href="#test-shell" aria-hidden="true"></a>Test shell</h6>
+<img data-src="img/test_shell_snippet.gif">
+
+            </section>
+        
+            <section >
+                <h6><a id="user-content-parametrising-fixtures-1" class="anchor" href="#parametrising-fixtures-1" aria-hidden="true"></a>Parametrising fixtures</h6>
+<img data-src="img/param_fixtures_snippet.gif">
+
+            </section>
+        
+
+    </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-bash-bindings" class="anchor" href="#bash-bindings" aria-hidden="true"></a>Bash bindings</h3>
+<p>Add these to your <code>.bashrc</code></p>
+<pre><code class="language-bash">bind '&quot;\e[A&quot;: history-search-backward'
+bind '&quot;\e[B&quot;: history-search-forward'
+bind '&quot;\eOA&quot;: history-search-backward'
+bind '&quot;\eOB&quot;: history-search-forward'
+</code></pre>
+<img data-src="img/bash_bindings.gif">
+
+            </section>
     
 
 
